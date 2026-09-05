@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     // Check for pointer device
