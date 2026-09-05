@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Maquettes sources exportées (non exécutées par l'application Next.js).
+    "Logo et page d'accueil/**",
   ]),
 ]);
 

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>À propos — Le 1000 Resto Bar Relais</title>
+<meta name="description" content="L'histoire, la philosophie et l'équipe derrière Le 1000 Resto Bar Relais — une adresse chaleureuse pensée pour se retrouver.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; background: #0D0E0E; }
+  body { margin: 0; background: #0D0E0E; color: #F2EFE8; font-family: Montserrat, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #F2EFE8; text-decoration: none; transition: color .45s cubic-bezier(.16,.84,.24,1); }
+  a:hover { color: #FBE275; }
+  h1, h2, h3 { margin: 0; font-weight: 700; }
+  p { margin: 0; text-wrap: pretty; }
+  ::selection { background: #D1A647; color: #0D0E0E; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media (min-width: 1080px) { #ap-burger { display: none !important; } #ap-cta { display: inline-flex !important; } }
+  @media (max-width: 1079px) {
+    #ap-navlinks, #ap-cta { display: none !important; }
+    #ap-burger { display: flex !important; }
+    #ap-footgrid { grid-template-columns: repeat(2, 1fr) !important; }
+    #ap-histgrid, #ap-lieugrid, #ap-teamgrid, #ap-ctagrid { grid-template-columns: 1fr !important; }
+    #ap-values { grid-template-columns: 1fr 1fr !important; }
+    #ap-stats { grid-template-columns: 1fr 1fr !important; }
+    #ap-hist-detail { position: static !important; width: 100% !important; margin-top: 16px !important; }
+  }
+  @media (max-width: 779px) {
+    #ap-values, #ap-stats, #ap-footgrid { grid-template-columns: 1fr !important; }
+    #ap-hist-detail { position: static !important; width: 100% !important; margin-top: 16px !important; }
+    #ap-gallery > * { grid-column: 1 / span 12 !important; margin-top: 0 !important; align-self: auto !important; }
+  }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div id="ap-root" style="position:relative;background:#0D0E0E;">
+
+  <header id="ap-header" style="position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px clamp(20px,4vw,64px);background:rgba(13,14,14,0);border-bottom:1px solid rgba(209,166,71,0);backdrop-filter:blur(0px);transition:background .6s cubic-bezier(.16,.84,.24,1),border-color .6s ease,backdrop-filter .6s ease,padding .6s cubic-bezier(.16,.84,.24,1);">
+    <a href="Accueil.dc.html" aria-label="Le 1000, retour à l'accueil" style="display:flex;align-items:center;">
+      <img src="assets/logo-le1000.png" alt="Logo Le 1000 Resto Bar Relais" style="height:clamp(38px,4.4vw,54px);width:auto;display:block;">
+    </a>
+    <nav aria-label="Navigation principale" style="display:flex;align-items:center;gap:clamp(18px,2.6vw,40px);">
+      <div id="ap-navlinks" style="display:flex;align-items:center;gap:clamp(18px,2.6vw,38px);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;">
+        <a href="Accueil.dc.html" style="color:rgba(242,239,232,.72);padding:6px 0;">Accueil</a>
+        <a href="Accueil.dc.html#promo" style="color:rgba(242,239,232,.72);padding:6px 0;">Promos</a>
+        <a href="Menu.dc.html" style="color:rgba(242,239,232,.72);padding:6px 0;">Menu</a>
+        <a href="A propos.dc.html" style="color:#F2EFE8;padding:6px 0;border-bottom:1px solid rgba(251,226,117,.55);">À propos</a>
+        <a href="Contact.dc.html" style="color:rgba(242,239,232,.72);padding:6px 0;">Contact</a>
+      </div>
+      <a href="Contact.dc.html" id="ap-cta" style="display:none;align-items:center;gap:10px;padding:12px 22px;border:1px solid rgba(209,166,71,.55);border-radius:2px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:#FBE275;transition:background .5s ease,border-color .5s ease;" style-hover="background:rgba(209,166,71,.14);border-color:#D1A647;color:#FBE275;">Nous trouver</a>
+      <button type="button" id="ap-burger" aria-label="Ouvrir le menu" aria-expanded="false" onClick="{{ toggleMenu }}" style="display:flex;flex-direction:column;justify-content:center;gap:6px;width:46px;height:46px;padding:0 11px;background:transparent;border:1px solid rgba(242,239,232,.18);border-radius:2px;cursor:pointer;">
+        <span style="display:block;height:1px;background:#F2EFE8;"></span>
+        <span style="display:block;height:1px;background:#F2EFE8;"></span>
+      </button>
+    </nav>
+  </header>
+
+  <div id="ap-menu" data-open="0" role="dialog" aria-modal="true" aria-label="Menu de navigation" style="position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,7vw,80px);background:#0D0E0E;opacity:0;pointer-events:none;transform:translateY(-12px);transition:opacity .6s cubic-bezier(.16,.84,.24,1),transform .7s cubic-bezier(.16,.84,.24,1);">
+    <button type="button" aria-label="Fermer le menu" onClick="{{ toggleMenu }}" style="position:absolute;top:26px;right:clamp(20px,5vw,64px);width:48px;height:48px;background:transparent;border:1px solid rgba(242,239,232,.2);border-radius:2px;color:#F2EFE8;font-size:20px;line-height:1;cursor:pointer;font-family:Montserrat,sans-serif;">×</button>
+    <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.4em;color:#D1A647;">RESTO · BAR · RELAIS</span>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-top:34px;">
+      <a href="Accueil.dc.html" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,13vw,80px);line-height:1.02;text-transform:uppercase;color:rgba(242,239,232,.62);">Accueil</a>
+      <a href="Menu.dc.html" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,13vw,80px);line-height:1.02;text-transform:uppercase;color:rgba(242,239,232,.62);">Menu</a>
+      <a href="A propos.dc.html" onClick="{{ toggleMenu }}" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,13vw,80px);line-height:1.02;text-transform:uppercase;">À propos</a>
+      <a href="Contact.dc.html" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,13vw,80px);line-height:1.02;text-transform:uppercase;color:rgba(242,239,232,.62);">Contact</a>
+    </div>
+    <div style="height:1px;background:linear-gradient(90deg,rgba(209,166,71,.5),rgba(209,166,71,0));margin:40px 0 26px;"></div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.7;color:rgba(242,239,232,.6);">
+      <span>[Adresse à compléter]</span>
+      <a href="tel:+10000000000" style="color:#FBE275;">[Téléphone à compléter]</a>
+      <div style="display:flex;gap:22px;margin-top:8px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;">
+        <a href="#" aria-label="Instagram du 1000">Instagram</a>
+        <a href="#" aria-label="Facebook du 1000">Facebook</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="ap-hero" data-screen-label="Hero À propos" style="position:relative;min-height:clamp(560px,86svh,900px);display:flex;align-items:flex-end;overflow:hidden;">
+    <div id="ap-heroimg" style="position:absolute;inset:-20% 0;transform:scale(1.05);will-change:transform;">
+      <image-slot id="ap-hero-bg" src="https://images.pexels.com/photos/6503578/pexels-photo-6503578.jpeg?auto=compress&cs=tinysrgb&w=1800" shape="rect" fit="cover" placeholder="Photo d'ambiance — salle vide en fin de journée, lumière chaude (paysage, 2400px)"></image-slot>
+    </div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,14,14,.88) 0%,rgba(13,14,14,.42) 38%,rgba(13,14,14,.8) 76%,#0D0E0E 100%);pointer-events:none;"></div>
+    <div style="position:relative;z-index:3;width:100%;max-width:1440px;margin:0 auto;padding:clamp(120px,18vh,200px) clamp(20px,5vw,80px) clamp(40px,7vh,90px);">
+      <div style="display:flex;flex-direction:column;gap:clamp(18px,2.4vw,30px);max-width:900px;">
+        <span data-reveal="up" style="display:flex;align-items:center;gap:14px;font-family:'Bebas Neue',Impact,sans-serif;font-size:12px;letter-spacing:.42em;color:#D1A647;">
+          <span aria-hidden="true" style="display:block;width:clamp(24px,4vw,54px);height:1px;background:linear-gradient(90deg,rgba(173,111,35,0),#D1A647);"></span>
+          À PROPOS
+        </span>
+        <h1 data-reveal="up" data-delay="120" style="font-family:Teko,Impact,sans-serif;font-size:clamp(50px,7.4vw,120px);line-height:.93;text-transform:uppercase;color:#FFFFFF;">Le relais de<br>ceux qui <span style="background:linear-gradient(180deg,#AD6F23 0%,#D1A647 20%,#FBE275 48%,#ECD067 72%,#AB6D23 100%);-webkit-background-clip:text;background-clip:text;color:transparent;">s'arrêtent</span></h1>
+        <p data-reveal="up" data-delay="240" style="max-width:580px;font-size:clamp(16px,1.4vw,20px);line-height:1.78;font-weight:300;color:#EFE9DC;">Un resto bar, un point de rencontre, un endroit où l'on entre pour un verre et où l'on reste pour la soirée.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ap-histoire" data-screen-label="Notre histoire" style="position:relative;padding:clamp(90px,14vh,180px) clamp(20px,5vw,80px);background:#0D0E0E;overflow:hidden;">
+    <span data-parallax="0.06" aria-hidden="true" style="position:absolute;top:4%;left:-3%;font-family:Teko,Impact,sans-serif;font-weight:700;font-size:clamp(200px,32vw,540px);line-height:.8;color:rgba(242,239,232,.028);pointer-events:none;user-select:none;">1000</span>
+    <div id="ap-histgrid" style="position:relative;display:grid;grid-template-columns:6fr 5fr;gap:clamp(30px,5vw,90px);align-items:center;max-width:1400px;margin:0 auto;">
+      <div style="display:flex;flex-direction:column;gap:clamp(16px,1.8vw,26px);">
+        <span data-reveal="up" style="font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.42em;color:#D1A647;">NOTRE HISTOIRE</span>
+        <h2 data-reveal="up" data-delay="100" style="font-family:Teko,Impact,sans-serif;font-size:clamp(42px,5.6vw,96px);line-height:.95;text-transform:uppercase;color:#FFFFFF;">Née d'une envie<br>simple</h2>
+        <div data-reveal="up" data-delay="150" style="width:74px;height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,0));"></div>
+        <p data-reveal="up" data-delay="200" style="max-width:520px;font-size:clamp(15px,1.15vw,17.5px);line-height:1.9;font-weight:300;color:rgba(242,239,232,.78);">[Texte provisoire — l'origine du 1000 : qui a ouvert la maison, quand, et pourquoi ici. Deux ou trois phrases, à remplacer par le texte réel.]</p>
+        <p data-reveal="up" data-delay="260" style="max-width:520px;font-size:clamp(15px,1.15vw,17.5px);line-height:1.9;font-weight:300;color:rgba(242,239,232,.62);">[Deuxième paragraphe — ce qui a changé depuis, ce qui n'a pas bougé, et ce que la maison veut rester pour ses habitués.]</p>
+        <div data-reveal="up" data-delay="320" style="display:flex;align-items:center;gap:18px;margin-top:14px;">
+          <span aria-hidden="true" style="width:40px;height:1px;background:rgba(209,166,71,.55);"></span>
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:12px;letter-spacing:.3em;color:rgba(242,239,232,.55);">[NOM DU/DES PROPRIÉTAIRE·S]</span>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <div data-reveal="mask" style="position:relative;width:100%;aspect-ratio:4 / 5;overflow:hidden;">
+          <div data-parallax="-0.03" style="position:absolute;inset:-6%;">
+            <image-slot id="ap-hist-main" src="https://images.pexels.com/photos/12181619/pexels-photo-12181619.jpeg?auto=compress&cs=tinysrgb&w=1800" shape="rect" fit="cover" placeholder="Photo humaine — propriétaire ou équipe au bar (portrait 4:5)"></image-slot>
+          </div>
+        </div>
+        <div id="ap-hist-detail" data-reveal="up" data-delay="220" style="position:absolute;left:-12%;bottom:-8%;width:62%;display:flex;flex-direction:column;gap:8px;padding:22px 24px;background:#141210;border:1px solid rgba(209,166,71,.35);border-radius:2px;box-shadow:0 30px 80px rgba(0,0,0,.55);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:11px;letter-spacing:.32em;color:#D1A647;">DEPUIS</span>
+          <span style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(34px,3.6vw,52px);line-height:1;color:#F2EFE8;">[ANNÉE]</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ap-valeurs" data-screen-label="Philosophie" style="position:relative;padding:clamp(90px,14vh,180px) clamp(20px,5vw,80px);background:#1A1A1A;">
+    <div style="max-width:1400px;margin:0 auto;">
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:clamp(44px,6vh,80px);">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <span data-reveal="up" style="font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.42em;color:#D1A647;">CE QUI NOUS GUIDE</span>
+          <h2 data-reveal="up" data-delay="100" style="font-family:Teko,Impact,sans-serif;font-size:clamp(42px,5.6vw,92px);line-height:.94;text-transform:uppercase;color:#FFFFFF;">Trois règles<br>de la maison</h2>
+        </div>
+        <p data-reveal="up" data-delay="180" style="max-width:330px;font-size:14px;line-height:1.85;font-weight:300;color:rgba(242,239,232,.6);">Rien de compliqué. On sert ce qu'on aime manger, on le sert bien, et on prend le temps.</p>
+      </div>
+      <div id="ap-values" style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.6vw,26px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;padding:clamp(26px,2.6vw,40px);background:rgba(13,14,14,.5);border:1px solid rgba(242,239,232,.08);border-radius:2px;transition:border-color .5s ease,background .5s ease;" style-hover="border-color:rgba(209,166,71,.45);background:rgba(13,14,14,.72);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:12px;letter-spacing:.3em;color:rgba(209,166,71,.75);">01</span>
+          <h3 style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(28px,2.8vw,44px);line-height:1;text-transform:uppercase;color:#FFFFFF;">Généreux<br>d'abord</h3>
+          <p style="font-size:14px;line-height:1.85;font-weight:300;color:rgba(242,239,232,.68);">Des assiettes franches, des portions qui rassasient, des prix qui restent honnêtes.</p>
+        </div>
+        <div data-reveal="up" data-delay="140" style="display:flex;flex-direction:column;gap:14px;padding:clamp(26px,2.6vw,40px);background:rgba(13,14,14,.5);border:1px solid rgba(242,239,232,.08);border-radius:2px;transition:border-color .5s ease,background .5s ease;" style-hover="border-color:rgba(209,166,71,.45);background:rgba(13,14,14,.72);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:12px;letter-spacing:.3em;color:rgba(209,166,71,.75);">02</span>
+          <h3 style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(28px,2.8vw,44px);line-height:1;text-transform:uppercase;color:#FFFFFF;">Le service<br>avant tout</h3>
+          <p style="font-size:14px;line-height:1.85;font-weight:300;color:rgba(242,239,232,.68);">On connaît nos habitués par leur nom et on accueille les nouveaux comme tels.</p>
+        </div>
+        <div data-reveal="up" data-delay="280" style="display:flex;flex-direction:column;gap:14px;padding:clamp(26px,2.6vw,40px);background:rgba(13,14,14,.5);border:1px solid rgba(242,239,232,.08);border-radius:2px;transition:border-color .5s ease,background .5s ease;" style-hover="border-color:rgba(209,166,71,.45);background:rgba(13,14,14,.72);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:12px;letter-spacing:.3em;color:rgba(209,166,71,.75);">03</span>
+          <h3 style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(28px,2.8vw,44px);line-height:1;text-transform:uppercase;color:#FFFFFF;">Une raison<br>chaque jour</h3>
+          <p style="font-size:14px;line-height:1.85;font-weight:300;color:rgba(242,239,232,.68);">Sept promos, sept jours : il y a toujours un prétexte pour passer au 1000.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ap-lieu" data-screen-label="Le lieu" style="position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;background:#0D0E0E;">
+    <div id="ap-lieuimg" style="position:absolute;inset:-24% 0;will-change:transform;">
+      <image-slot id="ap-lieu-bg" src="https://images.pexels.com/photos/5490818/pexels-photo-5490818.jpeg?auto=compress&cs=tinysrgb&w=1800" shape="rect" fit="cover" placeholder="Grande photo du lieu — bar central en soirée (paysage, 2400px)"></image-slot>
+    </div>
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,14,14,.93) 0%,rgba(13,14,14,.64) 48%,rgba(13,14,14,.3) 100%);pointer-events:none;"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,#0D0E0E 0%,rgba(13,14,14,0) 18%,rgba(13,14,14,0) 82%,#0D0E0E 100%);pointer-events:none;"></div>
+    <div style="position:relative;z-index:3;width:100%;max-width:1440px;margin:0 auto;padding:clamp(90px,12vh,150px) clamp(20px,5vw,80px);">
+      <div style="max-width:620px;display:flex;flex-direction:column;gap:clamp(18px,2vw,28px);">
+        <span data-reveal="up" style="font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.42em;color:#D1A647;">LE LIEU</span>
+        <h2 data-reveal="up" data-delay="100" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,6.6vw,110px);line-height:.94;text-transform:uppercase;color:#FFFFFF;">Bois, laiton<br>et lumière basse</h2>
+        <p data-reveal="up" data-delay="200" style="max-width:480px;font-size:clamp(15px,1.15vw,17px);line-height:1.85;font-weight:300;color:rgba(242,239,232,.78);">Un bar central en bois massif, des banquettes profondes et un éclairage pensé pour la fin de soirée. Assez grand pour un party, assez intime pour un souper à deux.</p>
+      </div>
+      <div id="ap-stats" data-reveal="up" data-delay="280" style="display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4vw,40px);margin-top:clamp(46px,7vh,86px);max-width:900px;">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(34px,3.6vw,56px);line-height:1;color:#FBE275;">[00]</span>
+          <span style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,239,232,.55);">Places assises</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(34px,3.6vw,56px);line-height:1;color:#FBE275;">[00]</span>
+          <span style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,239,232,.55);">Bières en fût</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(34px,3.6vw,56px);line-height:1;color:#FBE275;">7</span>
+          <span style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,239,232,.55);">Promos par semaine</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(34px,3.6vw,56px);line-height:1;color:#FBE275;">[00]</span>
+          <span style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,239,232,.55);">Écrans pour le sport</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ap-equipe" data-screen-label="L'équipe" style="position:relative;padding:clamp(90px,14vh,180px) clamp(20px,5vw,80px);background:#25292D;overflow:hidden;">
+    <div id="ap-teamgrid" style="display:grid;grid-template-columns:5fr 7fr;gap:clamp(30px,4vw,80px);align-items:center;max-width:1400px;margin:0 auto;">
+      <div style="display:flex;flex-direction:column;gap:clamp(16px,1.8vw,26px);">
+        <span data-reveal="up" style="font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.42em;color:#D1A647;">L'ÉQUIPE</span>
+        <h2 data-reveal="up" data-delay="100" style="font-family:Teko,Impact,sans-serif;font-size:clamp(40px,5.2vw,88px);line-height:.96;text-transform:uppercase;color:#FFFFFF;">Derrière<br>le bar</h2>
+        <p data-reveal="up" data-delay="180" style="max-width:430px;font-size:clamp(15px,1.1vw,17px);line-height:1.85;font-weight:300;color:rgba(242,239,232,.76);">[Texte provisoire — une phrase ou deux sur la cuisine, le bar et le service : qui tient les fourneaux, qui shake les cocktails.]</p>
+        <div data-reveal="up" data-delay="240" style="display:flex;flex-direction:column;gap:16px;margin-top:10px;">
+          <div style="display:flex;flex-direction:column;gap:5px;padding-bottom:16px;border-bottom:1px solid rgba(242,239,232,.1);">
+            <span style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(22px,2vw,30px);line-height:1.1;text-transform:uppercase;color:#F2EFE8;">[Nom]</span>
+            <span style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(209,166,71,.85);">Cuisine</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;padding-bottom:16px;border-bottom:1px solid rgba(242,239,232,.1);">
+            <span style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(22px,2vw,30px);line-height:1.1;text-transform:uppercase;color:#F2EFE8;">[Nom]</span>
+            <span style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(209,166,71,.85);">Bar &amp; cocktails</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <span style="font-family:Teko,Impact,sans-serif;font-weight:600;font-size:clamp(22px,2vw,30px);line-height:1.1;text-transform:uppercase;color:#F2EFE8;">[Nom]</span>
+            <span style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(209,166,71,.85);">Salle &amp; accueil</span>
+          </div>
+        </div>
+      </div>
+      <div id="ap-gallery" style="display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(12px,1.4vw,20px);">
+        <div data-card="1" data-reveal="mask" data-parallax="-0.03" style="grid-column:1 / span 7;aspect-ratio:4 / 3;overflow:hidden;background:#0D0E0E;">
+          <div data-zoom="1" style="position:relative;height:100%;transition:transform 1.4s cubic-bezier(.16,.84,.24,1);"><image-slot id="ap-t1" src="https://images.pexels.com/photos/3811834/pexels-photo-3811834.jpeg?auto=compress&cs=tinysrgb&w=1800" shape="rect" fit="cover" placeholder="Barman au travail (paysage)"></image-slot></div>
+        </div>
+        <div data-card="1" data-reveal="mask" data-delay="120" data-parallax="0.05" style="grid-column:8 / span 5;aspect-ratio:3 / 4;overflow:hidden;background:#0D0E0E;align-self:end;">
+          <div data-zoom="1" style="position:relative;height:100%;transition:transform 1.4s cubic-bezier(.16,.84,.24,1);"><image-slot id="ap-t2" src="https://images.pexels.com/photos/8980827/pexels-photo-8980827.jpeg?auto=compress&cs=tinysrgb&w=1800" shape="rect" fit="cover" placeholder="Service en salle (portrait)"></image-slot></div>
+        </div>
+        <div data-card="1" data-reveal="mask" data-delay="200" data-parallax="0.04" style="grid-column:2 / span 5;aspect-ratio:1 / 1;overflow:hidden;background:#0D0E0E;margin-top:clamp(-32px,-3vw,0px);">
+          <div data-zoom="1" style="position:relative;height:100%;transition:transform 1.4s cubic-bezier(.16,.84,.24,1);"><image-slot id="ap-t3" src="https://images.pexels.com/photos/17903465/pexels-photo-17903465.jpeg?auto=compress&cs=tinysrgb&w=1800" shape="rect" fit="cover" placeholder="Détail du décor (carré)"></image-slot></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ap-cta-sec" data-screen-label="Invitation" style="position:relative;padding:clamp(90px,14vh,170px) clamp(20px,5vw,80px);background:#141210;border-top:1px solid rgba(209,166,71,.22);overflow:hidden;">
+    <span data-parallax="0.05" aria-hidden="true" style="position:absolute;bottom:-16%;right:-4%;font-family:Teko,Impact,sans-serif;font-weight:700;font-size:clamp(190px,28vw,480px);line-height:.8;color:rgba(209,166,71,.05);pointer-events:none;user-select:none;">1000</span>
+    <div id="ap-ctagrid" style="position:relative;display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(28px,4vw,70px);align-items:center;max-width:1300px;margin:0 auto;">
+      <div style="display:flex;flex-direction:column;gap:clamp(16px,1.8vw,26px);">
+        <span data-reveal="up" style="font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.42em;color:#D1A647;">ON VOUS ATTEND</span>
+        <h2 data-reveal="up" data-delay="100" style="font-family:Teko,Impact,sans-serif;font-size:clamp(42px,5.6vw,94px);line-height:.94;text-transform:uppercase;color:#FFFFFF;">La prochaine<br>tournée est<br>pour vous</h2>
+      </div>
+      <div data-reveal="up" data-delay="200" style="display:flex;flex-direction:column;gap:22px;">
+        <p style="font-size:clamp(15px,1.1vw,17px);line-height:1.85;font-weight:300;color:rgba(242,239,232,.74);">Jetez un œil au menu, repérez la promo du jour, puis venez nous voir.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;">
+          <a href="Menu.dc.html" style="display:inline-flex;align-items:center;gap:12px;padding:17px 32px;border-radius:2px;background:linear-gradient(180deg,#AD6F23 0%,#D1A647 22%,#FBE275 52%,#ECD067 74%,#AB6D23 100%);color:#160F04;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;transition:transform .5s cubic-bezier(.16,.84,.24,1),box-shadow .5s ease;" style-hover="transform:translateY(-2px);box-shadow:0 14px 40px rgba(173,111,35,.35);color:#160F04;">Voir le menu</a>
+          <a href="Contact.dc.html" data-arrow="1" style="display:inline-flex;align-items:center;gap:12px;padding:17px 4px;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:#F2EFE8;border-bottom:1px solid rgba(242,239,232,.24);">Nous trouver
+            <span data-arrow-glyph="1" style="display:inline-block;color:#FBE275;transition:transform .55s cubic-bezier(.16,.84,.24,1);">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="position:relative;padding:clamp(70px,10vh,120px) clamp(20px,5vw,80px) 36px;background:#0D0E0E;overflow:hidden;">
+    <div id="ap-footgrid" style="position:relative;display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:clamp(28px,3vw,54px);max-width:1440px;margin:0 auto;">
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <img src="assets/logo-le1000.png" alt="Logo Le 1000 Resto Bar Relais" style="height:52px;width:auto;">
+        <p style="max-width:280px;font-size:13px;line-height:1.85;font-weight:300;color:rgba(242,239,232,.55);">Une adresse chaleureuse où cuisine, cocktails et moments partagés se rencontrent.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:11px;letter-spacing:.32em;color:#D1A647;">NAVIGATION</span>
+        <a href="Accueil.dc.html" style="font-size:13px;color:rgba(242,239,232,.72);">Accueil</a>
+        <a href="Menu.dc.html" style="font-size:13px;color:rgba(242,239,232,.72);">Menu</a>
+        <a href="A propos.dc.html" style="font-size:13px;color:rgba(242,239,232,.72);">À propos</a>
+        <a href="Contact.dc.html" style="font-size:13px;color:rgba(242,239,232,.72);">Contact</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:11px;letter-spacing:.32em;color:#D1A647;">COORDONNÉES</span>
+        <span style="font-size:13px;line-height:1.8;font-weight:300;color:rgba(242,239,232,.6);">[Adresse à compléter]</span>
+        <a href="tel:+10000000000" style="font-size:13px;color:rgba(242,239,232,.72);">[Téléphone]</a>
+        <div style="display:flex;gap:18px;margin-top:6px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;">
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:11px;letter-spacing:.32em;color:#D1A647;">HORAIRES</span>
+        <div style="display:grid;grid-template-columns:auto auto;gap:6px 18px;font-size:13px;font-weight:300;color:rgba(242,239,232,.6);">
+          <span>Lun – Jeu</span><span>[à compléter]</span>
+          <span>Ven – Sam</span><span>[à compléter]</span>
+          <span>Dimanche</span><span>[à compléter]</span>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative;max-width:1440px;margin:clamp(48px,7vh,86px) auto 0;">
+      <div style="height:1px;background:linear-gradient(90deg,rgba(209,166,71,0),rgba(209,166,71,.35),rgba(209,166,71,0));"></div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:24px;font-size:11px;letter-spacing:.12em;color:rgba(242,239,232,.4);">
+        <span>© 2026 Le 1000 Resto Bar Relais. Tous droits réservés.</span>
+        <div style="display:flex;flex-wrap:wrap;gap:24px;">
+          <a href="#" style="color:rgba(242,239,232,.5);">Mentions légales</a>
+          <a href="#" style="color:rgba(242,239,232,.5);">Politique de confidentialité</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;customCursor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Interactions&quot;},&quot;parallaxIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Interactions&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      toggleMenu: () => {
+        const m = document.getElementById('ap-menu');
+        const b = document.getElementById('ap-burger');
+        if (!m) return;
+        const open = m.dataset.open === '1';
+        m.dataset.open = open ? '0' : '1';
+        m.style.opacity = open ? '0' : '1';
+        m.style.pointerEvents = open ? 'none' : 'auto';
+        m.style.transform = open ? 'translateY(-12px)' : 'translateY(0)';
+        if (b) b.setAttribute('aria-expanded', open ? 'false' : 'true');
+        document.body.style.overflow = open ? '' : 'hidden';
+      }
+    };
+  }
+
+  componentDidMount() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const root = document.getElementById('ap-root');
+    if (!root) return;
+    const ease = 'cubic-bezier(.16,.84,.24,1)';
+
+    this._onResize = () => { if (this._revealPass) this._revealPass(); };
+    window.addEventListener('resize', this._onResize);
+
+    let items = [...root.querySelectorAll('[data-reveal]')];
+    const itemList = () => {
+      if (items.length && items[0].isConnected) return items;
+      items = [...document.querySelectorAll('[data-reveal]')];
+      return items;
+    };
+    const prime = el => {
+      if (el.style.transition) return;
+      const kind = el.getAttribute('data-reveal');
+      const d = el.getAttribute('data-delay') || 0;
+      el.style.transition = 'opacity 1.05s ' + ease + ' ' + d + 'ms, transform 1.15s ' + ease + ' ' + d + 'ms, clip-path 1.3s ' + ease + ' ' + d + 'ms';
+      if (kind === 'mask') el.style.clipPath = 'inset(100% 0 0 0)';
+      else { el.style.opacity = '0'; el.style.transform = 'translateY(66px) scale(.975)'; }
+    };
+    const show = el => {
+      if (el.dataset.shown === '1') return;
+      el.dataset.shown = '1';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      if (el.getAttribute('data-reveal') === 'mask') el.style.clipPath = 'inset(0% 0 0 0)';
+    };
+    if (!reduce) {
+      items.forEach(prime);
+      this._revealPass = () => {
+        const vh = window.innerHeight;
+        itemList().forEach(el => {
+          if (el.dataset.shown === '1') return;
+          prime(el);
+          const r = el.getBoundingClientRect();
+          if (r.top < vh * 0.84 && r.bottom > -vh * 0.3) show(el);
+        });
+      };
+      if (window.IntersectionObserver) {
+        this._io = new IntersectionObserver(ents => {
+          ents.forEach(e => { if (e.isIntersecting) { show(e.target); this._io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -16% 0px', threshold: 0 });
+        itemList().forEach(el => this._io.observe(el));
+      }
+      this._onRevealScroll = () => this._revealPass();
+      window.addEventListener('scroll', this._onRevealScroll, { passive: true, capture: true });
+      document.addEventListener('scroll', this._onRevealScroll, { passive: true, capture: true });
+      this._revealPass();
+      setTimeout(() => this._revealPass(), 0);
+      window.addEventListener('load', this._onRevealScroll);
+    }
+
+    root.querySelectorAll('[data-card]').forEach(card => {
+      const z = card.querySelector('[data-zoom]');
+      card.addEventListener('mouseenter', () => { if (z && !reduce) z.style.transform = 'scale(1.06)'; });
+      card.addEventListener('mouseleave', () => { if (z) z.style.transform = 'none'; });
+    });
+    root.querySelectorAll('[data-arrow]').forEach(link => {
+      const a = link.querySelector('[data-arrow-glyph]');
+      if (!a) return;
+      link.addEventListener('mouseenter', () => { a.style.transform = 'translateX(7px)'; });
+      link.addEventListener('mouseleave', () => { a.style.transform = 'none'; });
+    });
+
+    this._c = {};
+    const q = id => {
+      if (this._c[id] && this._c[id].isConnected) return this._c[id];
+      const el = document.getElementById(id);
+      if (el) this._c[id] = el;
+      return el;
+    };
+    let pxEls = [];
+    const pxList = () => {
+      if (pxEls.length && pxEls[0].isConnected) return pxEls;
+      pxEls = [...document.querySelectorAll('[data-parallax]')];
+      return pxEls;
+    };
+    const strength = this.props.parallaxIntensity ?? 1;
+    const frameBody = () => {
+      const vh = window.innerHeight;
+      const header = q('ap-header');
+      const hero = q('ap-hero');
+      const heroImg = q('ap-heroimg');
+      const lieuImg = q('ap-lieuimg');
+      const heroTop = hero ? hero.getBoundingClientRect().top : 0;
+      const y = Math.max(0, -heroTop);
+      if (this._revealPass) this._revealPass();
+      if (header) {
+        const on = y > 40;
+        header.style.background = on ? 'rgba(13,14,14,.82)' : 'rgba(13,14,14,0)';
+        header.style.borderBottomColor = on ? 'rgba(209,166,71,.22)' : 'rgba(209,166,71,0)';
+        header.style.backdropFilter = on ? 'blur(14px)' : 'blur(0px)';
+        header.style.paddingTop = on ? '14px' : '22px';
+        header.style.paddingBottom = on ? '14px' : '22px';
+      }
+      if (window.innerWidth >= 780 && !reduce) {
+        const p = Math.min(1, y / Math.max(1, hero ? hero.offsetHeight : vh));
+        if (heroImg && hero) heroImg.style.transform = 'translate3d(0,' + (Math.min(y, hero.offsetHeight) * 0.2 * strength) + 'px,0) scale(' + (1.05 + p * 0.1) + ')';
+        if (lieuImg && lieuImg.parentElement) {
+          const r = lieuImg.parentElement.getBoundingClientRect();
+          lieuImg.style.transform = 'translateY(' + (((r.top + r.height / 2 - vh / 2) / vh) * -14 * strength) + '%)';
+        }
+        pxList().forEach(el => {
+          const r = el.getBoundingClientRect();
+          const off = ((r.top + r.height / 2 - vh / 2) / vh) * parseFloat(el.getAttribute('data-parallax')) * 620 * strength;
+          el.style.transform = 'translate3d(0,' + off.toFixed(2) + 'px,0)';
+        });
+      }
+    };
+    const frame = () => {
+      try { frameBody(); } catch (err) {
+        const now = Date.now();
+        if (now - (this._frameErr || 0) > 1000) { this._frameErr = now; console.error('[le1000] frame', err && err.message); }
+      }
+    };
+    let lastFrame = 0;
+    const step = () => { lastFrame = Date.now(); frame(); };
+    const tick = () => { this._sraf = requestAnimationFrame(tick); step(); };
+    tick();
+    this._onFrameScroll = () => step();
+    window.addEventListener('scroll', this._onFrameScroll, { passive: true, capture: true });
+    document.addEventListener('scroll', this._onFrameScroll, { passive: true, capture: true });
+    this._guard = setInterval(() => {
+      if (Date.now() - lastFrame > 250) step();
+      if (this._revealPass) { try { this._revealPass(); } catch (e) {} }
+    }, 200);
+
+    if ((this.props.customCursor ?? true) && !reduce && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+      const c = document.createElement('div');
+      c.setAttribute('aria-hidden', 'true');
+      Object.assign(c.style, {
+        position: 'fixed', top: '0', left: '0', width: '26px', height: '26px', marginLeft: '-13px', marginTop: '-13px',
+        border: '1px solid rgba(209,166,71,.75)', borderRadius: '50%', zIndex: '999', pointerEvents: 'none',
+        opacity: '0', transition: 'opacity .4s ease, width .4s ' + ease + ', height .4s ' + ease + ', margin .4s ' + ease + ', background .4s ease',
+        mixBlendMode: 'screen'
+      });
+      document.body.appendChild(c);
+      this._cursor = c;
+      let cx = 0, cy = 0, tx = 0, ty = 0;
+      this._onMove = e => { tx = e.clientX; ty = e.clientY; c.style.opacity = '1'; };
+      window.addEventListener('mousemove', this._onMove, { passive: true });
+      const loop = () => {
+        cx += (tx - cx) * 0.18; cy += (ty - cy) * 0.18;
+        c.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
+        this._raf = requestAnimationFrame(loop);
+      };
+      loop();
+      root.querySelectorAll('a,button,[data-card]').forEach(el => {
+        el.addEventListener('mouseenter', () => Object.assign(c.style, { width: '46px', height: '46px', marginLeft: '-23px', marginTop: '-23px', background: 'rgba(209,166,71,.12)' }));
+        el.addEventListener('mouseleave', () => Object.assign(c.style, { width: '26px', height: '26px', marginLeft: '-13px', marginTop: '-13px', background: 'transparent' }));
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    document.body.style.overflow = '';
+    if (this._guard) clearInterval(this._guard);
+    if (this._io) this._io.disconnect();
+    window.removeEventListener('scroll', this._onRevealScroll, { capture: true });
+    document.removeEventListener('scroll', this._onRevealScroll, { capture: true });
+    window.removeEventListener('scroll', this._onFrameScroll, { capture: true });
+    document.removeEventListener('scroll', this._onFrameScroll, { capture: true });
+    window.removeEventListener('load', this._onRevealScroll);
+    window.removeEventListener('resize', this._onResize);
+    if (this._sraf) cancelAnimationFrame(this._sraf);
+    if (this._onMove) window.removeEventListener('mousemove', this._onMove);
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._cursor) this._cursor.remove();
+  }
+}
+</script>
+</body>
+</html>

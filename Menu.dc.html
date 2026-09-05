@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Menu — Le 1000 Resto Bar Relais</title>
+<meta name="description" content="Le menu du 1000 Resto Bar Relais : entrées, entrées à partager, salades, burgers et sandwichs, pizzas et pâtes, tacos, grillades, poké bowl, poutines gourmandes, desserts et promo quotidienne.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; background: #0D0E0E; }
+  body { margin: 0; background: #0D0E0E; color: #F2EFE8; font-family: Montserrat, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #F2EFE8; text-decoration: none; transition: color .45s cubic-bezier(.16,.84,.24,1); }
+  a:hover { color: #FBE275; }
+  h1, h2, h3 { margin: 0; font-weight: 700; }
+  p { margin: 0; text-wrap: pretty; }
+  ::selection { background: #D1A647; color: #0D0E0E; }
+  #mn-catnav::-webkit-scrollbar { height: 0; }
+  #mn-catnav { scrollbar-width: none; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media (min-width: 1080px) { #mn-burger { display: none !important; } #mn-find { display: inline-flex !important; } }
+  @media (max-width: 1079px) {
+    #mn-navlinks, #mn-find { display: none !important; }
+    #mn-burger { display: flex !important; }
+    #mn-footgrid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+  @media (max-width: 779px) {
+    #mn-footgrid { grid-template-columns: 1fr !important; }
+    .mn-promorow { grid-template-columns: 1fr !important; gap: 6px !important; }
+  }
+</style>
+</helmet>
+
+<div id="mn-root" style="position:relative;background:#0D0E0E;">
+
+  <header id="mn-header" style="position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px clamp(20px,4vw,64px);background:rgba(13,14,14,.9);border-bottom:1px solid rgba(209,166,71,.16);backdrop-filter:blur(14px);transition:background .6s cubic-bezier(.16,.84,.24,1),border-color .6s ease;">
+    <a href="Accueil.dc.html" aria-label="Le 1000, retour à l'accueil" style="display:flex;align-items:center;">
+      <img src="assets/logo-le1000.png" alt="Logo Le 1000 Resto Bar Relais" style="height:clamp(38px,4.4vw,54px);width:auto;display:block;">
+    </a>
+    <nav aria-label="Navigation principale" style="display:flex;align-items:center;gap:clamp(18px,2.6vw,40px);">
+      <div id="mn-navlinks" style="display:flex;align-items:center;gap:clamp(18px,2.6vw,38px);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;">
+        <a href="Accueil.dc.html" style="color:rgba(242,239,232,.72);padding:6px 0;">Accueil</a>
+        <a href="#mn-top" style="color:#F2EFE8;padding:6px 0;border-bottom:1px solid rgba(251,226,117,.55);">Menu</a>
+        <a href="A propos.dc.html" style="color:rgba(242,239,232,.72);padding:6px 0;">À propos</a>
+        <a href="Contact.dc.html" style="color:rgba(242,239,232,.72);padding:6px 0;">Contact</a>
+      </div>
+      <a href="#mn-promo" id="mn-find" data-promo="1" style="display:none;align-items:center;gap:10px;padding:12px 22px;border:1px solid rgba(209,166,71,.55);border-radius:2px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:#FBE275;transition:background .5s ease,border-color .5s ease;" style-hover="background:rgba(209,166,71,.14);border-color:#D1A647;">Promo du jour</a>
+      <button type="button" id="mn-burger" aria-label="Ouvrir le menu" aria-expanded="false" onClick="{{ toggleMenu }}" style="display:flex;flex-direction:column;justify-content:center;gap:6px;width:46px;height:46px;padding:0 11px;background:transparent;border:1px solid rgba(242,239,232,.18);border-radius:2px;cursor:pointer;">
+        <span style="display:block;height:1px;background:#F2EFE8;"></span>
+        <span style="display:block;height:1px;background:#F2EFE8;"></span>
+      </button>
+    </nav>
+  </header>
+
+  <div id="mn-menu" data-open="0" role="dialog" aria-modal="true" aria-label="Menu de navigation" style="position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,7vw,80px);background:#0D0E0E;opacity:0;pointer-events:none;transform:translateY(-12px);transition:opacity .6s cubic-bezier(.16,.84,.24,1),transform .7s cubic-bezier(.16,.84,.24,1);">
+    <button type="button" aria-label="Fermer le menu" onClick="{{ toggleMenu }}" style="position:absolute;top:26px;right:clamp(20px,5vw,64px);width:48px;height:48px;background:transparent;border:1px solid rgba(242,239,232,.2);border-radius:2px;color:#F2EFE8;font-size:20px;line-height:1;cursor:pointer;font-family:Montserrat,sans-serif;">×</button>
+    <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.4em;color:#D1A647;">RESTO · BAR · RELAIS</span>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-top:34px;">
+      <a href="Accueil.dc.html" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,13vw,80px);line-height:1.02;text-transform:uppercase;color:rgba(242,239,232,.62);">Accueil</a>
+      <a href="#mn-top" onClick="{{ toggleMenu }}" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,13vw,80px);line-height:1.02;text-transform:uppercase;">Menu</a>
+      <a href="A propos.dc.html" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,13vw,80px);line-height:1.02;text-transform:uppercase;color:rgba(242,239,232,.62);">À propos</a>
+      <a href="Contact.dc.html" style="font-family:Teko,Impact,sans-serif;font-size:clamp(44px,13vw,80px);line-height:1.02;text-transform:uppercase;color:rgba(242,239,232,.62);">Contact</a>
+    </div>
+    <div style="height:1px;background:linear-gradient(90deg,rgba(209,166,71,.5),rgba(209,166,71,0));margin:40px 0 26px;"></div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.7;color:rgba(242,239,232,.6);">
+      <span>[Adresse à compléter]</span>
+      <a href="tel:+10000000000" style="color:#FBE275;">[Téléphone à compléter]</a>
+    </div>
+  </div>
+
+  <section id="mn-top" data-screen-label="Menu — Hero" style="position:relative;min-height:clamp(420px,64vh,600px);display:flex;align-items:flex-end;overflow:hidden;">
+    <div id="mn-heroimg" style="position:absolute;inset:-20% 0;will-change:transform;">
+      <img src="assets/interieur-le1000.png" alt="La salle et le bar du 1000" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;filter:saturate(.82) contrast(1.04);">
+    </div>
+    <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,14,14,.82) 0%,rgba(13,14,14,.5) 42%,rgba(13,14,14,.96) 100%);"></div>
+    <div id="mn-herotext" style="position:relative;z-index:3;width:100%;padding:0 clamp(20px,5vw,80px) clamp(38px,7vh,74px);will-change:transform;">
+      <div style="display:flex;flex-direction:column;gap:20px;max-width:1440px;margin:0 auto;">
+        <span data-reveal="up" style="display:flex;align-items:center;gap:16px;font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(11px,1vw,14px);letter-spacing:.44em;color:#D1A647;">
+          <span aria-hidden="true" style="display:block;width:clamp(28px,5vw,64px);height:1px;background:linear-gradient(90deg,rgba(173,111,35,0),#D1A647);"></span>
+          CARTE COMPLÈTE
+        </span>
+        <h1 data-reveal="up" data-delay="90" style="font-family:Teko,Impact,sans-serif;font-weight:700;font-size:clamp(56px,8vw,124px);line-height:.94;letter-spacing:.005em;text-transform:uppercase;">Le menu</h1>
+        <p data-reveal="up" data-delay="200" style="max-width:560px;font-size:clamp(15px,1.3vw,19px);line-height:1.7;font-weight:400;color:#EFE9DC;text-shadow:0 1px 18px rgba(13,14,14,.85);">Cuisine de bistro généreuse, grillades, pizzas artisanales et poutines gourmandes — arrosées d'une promo différente chaque jour de la semaine.</p>
+        <a href="#mn-promo" data-reveal="up" data-delay="300" style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;max-width:640px;margin-top:8px;padding:18px 22px;border:1px solid rgba(209,166,71,.55);border-radius:2px;background:linear-gradient(140deg,rgba(209,166,71,.2),rgba(13,14,14,.62));backdrop-filter:blur(6px);transition:border-color .5s ease,background .5s ease;" style-hover="border-color:#FBE275;background:linear-gradient(140deg,rgba(209,166,71,.3),rgba(13,14,14,.62));">
+          <span id="mn-todaylabel" style="font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.28em;color:#FBE275;">PROMO DU JOUR</span>
+          <span id="mn-todaytext" style="flex:1;min-width:200px;font-size:clamp(15px,1.4vw,19px);line-height:1.5;font-weight:500;color:#F2EFE8;">Voir les promotions de la semaine</span>
+          <span aria-hidden="true" style="font-family:'Bebas Neue',Impact,sans-serif;font-size:12px;letter-spacing:.22em;color:rgba(251,226,117,.8);">VOIR TOUT ↓</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="mn-promo" data-promo="1" data-screen-label="Promo quotidienne" style="position:relative;padding:clamp(64px,10vh,120px) clamp(20px,5vw,80px);overflow:hidden;scroll-margin-top:120px;border-top:1px solid rgba(209,166,71,.18);">
+    <div id="mn-promoimg" aria-hidden="true" style="position:absolute;inset:-18% 0;will-change:transform;">
+      <img src="assets/interieur-le1000.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;display:block;filter:saturate(.5) brightness(.42);">
+    </div>
+    <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,14,14,.92),rgba(13,14,14,.8) 50%,rgba(13,14,14,.95));"></div>
+    <div style="position:relative;max-width:1440px;margin:0 auto;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:16px;margin-bottom:clamp(34px,5vh,56px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#FBE275,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(32px,4.4vw,64px);line-height:1;letter-spacing:.05em;background:linear-gradient(100deg,#FBE275,#D1A647 55%,#AD6F23);-webkit-background-clip:text;background-clip:text;color:transparent;">PROMO QUOTIDIENNE</h2>
+        <p style="max-width:620px;font-size:14.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.62);">Une raison de passer chaque jour de la semaine.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:clamp(30px,4vh,46px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:8px;padding:22px 24px;border:1px solid rgba(209,166,71,.4);border-radius:2px;background:rgba(13,14,14,.55);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:14px;letter-spacing:.22em;color:#FBE275;">AVANT 16 H</span>
+          <span style="font-size:16px;font-weight:400;color:#F2EFE8;">Nachos à <strong style="font-family:Teko,Impact,sans-serif;font-size:26px;font-weight:600;">12&nbsp;$</strong></span>
+        </div>
+        <div data-reveal="up" data-delay="80" style="display:flex;flex-direction:column;gap:8px;padding:22px 24px;border:1px solid rgba(209,166,71,.4);border-radius:2px;background:linear-gradient(140deg,rgba(209,166,71,.18),rgba(13,14,14,.55));">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:14px;letter-spacing:.22em;color:#FBE275;">HAPPY HOUR · 16 H – 19 H</span>
+          <span style="font-size:16px;font-weight:400;color:#F2EFE8;">Bière 20 oz à <strong style="font-family:Teko,Impact,sans-serif;font-size:26px;font-weight:600;">7&nbsp;$</strong> · Martini à <strong style="font-family:Teko,Impact,sans-serif;font-size:26px;font-weight:600;">10&nbsp;$</strong></span>
+        </div>
+        <div data-reveal="up" data-delay="160" style="display:flex;flex-direction:column;gap:8px;padding:22px 24px;border:1px solid rgba(209,166,71,.4);border-radius:2px;background:rgba(13,14,14,.55);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:14px;letter-spacing:.22em;color:#FBE275;">BIÈRE LANDSHARK</span>
+          <span style="font-size:16px;font-weight:400;color:#F2EFE8;"><strong style="font-family:Teko,Impact,sans-serif;font-size:26px;font-weight:600;">5 pour 35&nbsp;$</strong> · en tout temps</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;">
+        <div data-reveal="up" class="mn-promorow" style="display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:18px 0;border-top:1px solid rgba(209,166,71,.16);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(20px,2.2vw,28px);letter-spacing:.1em;color:#FBE275;">LUNDI</span>
+          <span style="font-size:15.5px;line-height:1.7;color:rgba(242,239,232,.86);"><strong style="font-weight:600;">Tacos et vins</strong> — Tacos 4 $ l'unité · Bouteilles de vin à 50 % de rabais</span>
+        </div>
+        <div data-reveal="up" class="mn-promorow" style="display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:18px 0;border-top:1px solid rgba(209,166,71,.16);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(20px,2.2vw,28px);letter-spacing:.1em;color:#FBE275;">MARDI</span>
+          <span style="font-size:15.5px;line-height:1.7;color:rgba(242,239,232,.86);"><strong style="font-weight:600;">Ailes</strong> — Ailes de poulet à 50 % de rabais</span>
+        </div>
+        <div data-reveal="up" class="mn-promorow" style="display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:18px 0;border-top:1px solid rgba(209,166,71,.16);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(20px,2.2vw,28px);letter-spacing:.1em;color:#FBE275;">MERCREDI</span>
+          <span style="font-size:15.5px;line-height:1.7;color:rgba(242,239,232,.86);"><strong style="font-weight:600;">Steak frites</strong> — Steak frites à 30 $</span>
+        </div>
+        <div data-reveal="up" class="mn-promorow" style="display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:18px 0;border-top:1px solid rgba(209,166,71,.16);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(20px,2.2vw,28px);letter-spacing:.1em;color:#FBE275;">JEUDI</span>
+          <span style="font-size:15.5px;line-height:1.7;color:rgba(242,239,232,.86);"><strong style="font-weight:600;">Burger</strong> — Burger jalapeños cheddar à 10 $</span>
+        </div>
+        <div data-reveal="up" class="mn-promorow" style="display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:18px 0;border-top:1px solid rgba(209,166,71,.16);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(20px,2.2vw,28px);letter-spacing:.1em;color:#FBE275;">VENDREDI</span>
+          <span style="font-size:15.5px;line-height:1.7;color:rgba(242,239,232,.86);"><strong style="font-weight:600;">Double ton fort</strong> — Boisson forte doublée</span>
+        </div>
+        <div data-reveal="up" class="mn-promorow" style="display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:18px 0;border-top:1px solid rgba(209,166,71,.16);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(20px,2.2vw,28px);letter-spacing:.1em;color:#FBE275;">SAMEDI</span>
+          <span style="font-size:15.5px;line-height:1.7;color:rgba(242,239,232,.86);"><strong style="font-weight:600;">Bouteille</strong> — Bouteille 26 oz (vodka, rhum, gin) à 75 $</span>
+        </div>
+        <div data-reveal="up" class="mn-promorow" style="display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:18px 0;border-top:1px solid rgba(209,166,71,.16);border-bottom:1px solid rgba(209,166,71,.16);">
+          <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(20px,2.2vw,28px);letter-spacing:.1em;color:#FBE275;">DIMANCHE</span>
+          <span style="font-size:15.5px;line-height:1.7;color:rgba(242,239,232,.86);"><strong style="font-weight:600;">Steak frites</strong> — Steak frites à 30 $</span>
+        </div>
+      </div>
+
+      <p style="margin-top:26px;font-size:12.5px;line-height:1.7;font-weight:300;color:rgba(242,239,232,.42);">Les prix et les promotions peuvent changer sans préavis. Taxes et service non inclus.</p>
+    </div>
+  </section>
+
+  <nav id="mn-catnav" aria-label="Catégories du menu" style="position:sticky;top:92px;z-index:60;display:flex;gap:8px;overflow-x:auto;padding:14px clamp(20px,5vw,80px);background:rgba(13,14,14,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(209,166,71,.14);">
+    <a href="#cat-entrees" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">ENTRÉES</a>
+    <a href="#cat-partager" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">À PARTAGER</a>
+    <a href="#cat-salades" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">SALADES</a>
+    <a href="#cat-burgers" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">BURGERS & SANDWICHS</a>
+    <a href="#cat-pizzas" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">PIZZAS & PÂTES</a>
+    <a href="#cat-tacos" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">TACOS</a>
+    <a href="#cat-grillades" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">GRILLADES</a>
+    <a href="#cat-poke" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">POKÉ BOWL</a>
+    <a href="#cat-poutines" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">POUTINES</a>
+    <a href="#cat-desserts" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">DESSERTS</a>
+    <a href="#cat-enfant" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(242,239,232,.14);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:rgba(242,239,232,.8);white-space:nowrap;transition:border-color .4s ease,color .4s ease,background .4s ease;" style-hover="border-color:#D1A647;color:#FBE275;background:rgba(209,166,71,.1);">MENU ENFANT</a>
+    <a href="#mn-promo" style="flex:0 0 auto;padding:9px 16px;border:1px solid rgba(209,166,71,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.16em;color:#FBE275;white-space:nowrap;background:rgba(209,166,71,.1);transition:background .4s ease;" style-hover="background:rgba(209,166,71,.2);">PROMO QUOTIDIENNE</a>
+  </nav>
+
+  <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,9vh,110px) clamp(20px,5vw,80px) 0;">
+
+    <section id="cat-entrees" data-screen-label="Entrées" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">ENTRÉES</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Des mises en bouche savoureuses pour ouvrir l'appétit.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Soupe du jour</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">6&nbsp;$</span>
+          </div>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Assiette de crudités <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">8&nbsp;$</span>
+          </div>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Rondelles d'oignon <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">9&nbsp;$</span>
+          </div>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Chips chaudes <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">9&nbsp;$</span>
+          </div>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Frites de patates douces gaufrées <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">9&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Frites croustillantes, mayo chipotle maison</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Cornichons frits <span style="font-weight:400;color:rgba(242,239,232,.6);">(5)</span> <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">9&nbsp;$</span>
+          </div>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Bâtonnets de fromage <span style="font-weight:400;color:rgba(242,239,232,.6);">(5)</span> <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">9&nbsp;$</span>
+          </div>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Bruschetta rustique <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">10&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Pain grillé, tomates fraîches, basilic, ail rôti, filet de balsamique vieilli</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Fondue 5 fromages <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">14&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Mélange riche et onctueux de cheddar vieilli, suisse, mozzarella et parmesan. Un incontournable savoureux !</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Meatballs du 1000</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">15&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Deux grosses boulettes rehaussées de parmesan, nappées d'une sauce tomate aux herbes et gratinées au four. Servies avec un pain à l'ancienne. Une entrée gourmande et réconfortante.</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Crevettes à l'ail</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">15&nbsp;$</span>
+          </div>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Calamars croustillants</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">18&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Calamars tendres, légèrement panés, mayo citronnée maison</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-partager" data-screen-label="Entrées à partager" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">ENTRÉES À PARTAGER</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Parfaites pour un moment convivial autour de la table.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Brie fondant <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">14&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Brie fondant, croustade de pommes et noix croustillantes à l'érable</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Nachos le 1000 <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">16&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Tortillas croustillantes, fromage fondant, salsa fraîche, jalapeños, crème sûre</p>
+          <p style="font-size:13px;line-height:1.7;font-style:italic;color:rgba(209,166,71,.9);">Ajoutez : porc effiloché, boeuf haché ou poulet croustillant — 5 $</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:9px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Ailes de poulet</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:10px 22px;">
+            <span style="display:flex;align-items:baseline;gap:7px;"><span style="font-size:13px;font-weight:300;color:rgba(242,239,232,.6);">8 mcx</span><span style="font-family:Teko,Impact,sans-serif;font-size:23px;font-weight:600;line-height:1;color:#D1A647;">12&nbsp;$</span></span>
+            <span style="display:flex;align-items:baseline;gap:7px;"><span style="font-size:13px;font-weight:300;color:rgba(242,239,232,.6);">16 mcx</span><span style="font-family:Teko,Impact,sans-serif;font-size:23px;font-weight:600;line-height:1;color:#D1A647;">23&nbsp;$</span></span>
+            <span style="display:flex;align-items:baseline;gap:7px;"><span style="font-size:13px;font-weight:300;color:rgba(242,239,232,.6);">24 mcx</span><span style="font-family:Teko,Impact,sans-serif;font-size:23px;font-weight:600;line-height:1;color:#D1A647;">33&nbsp;$</span></span>
+          </div>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Plateau de charcuteries</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">23&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Fruits frais du moment, fromages fins, croutons</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Mix d'entrées gourmand</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">26&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Bâtonnets de fromage, cornichons frits, saucisses en pâte, rondelles d'oignons panko, doigts de poulet panés, patates douces gaufrées</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-salades" data-screen-label="Salades" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">SALADES</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Fraîches, croquantes et pleines de saveurs.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Salade César</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">13&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Laitue romaine croquante, parmesan affiné, bacon croustillant, croûtons dorés, vinaigrette César maison</p>
+          <p style="font-size:13px;line-height:1.7;font-style:italic;color:rgba(209,166,71,.9);">Format repas (avec poulet) — 19 $</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Salade Thaï</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">17&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Légumes croquants, coriandre, arachides, poulet, vinaigrette sésame-lime</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-burgers" data-screen-label="Burgers et sandwichs" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">BURGERS &amp; SANDWICHS</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Servis avec frites maison ou salade.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Wrap poulet César</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">15&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Poulet grillé, laitue romaine, bacon, parmesan, tortilla moelleuse</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Burger jalapeños cheddar</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">16&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Galette de porc au cheddar et jalapeños, fromage cheddar, mayo épicée, salade, tomates, oignons croustillants, pain burger sésame</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Sandwich au porc effiloché</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">19&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Porc mijoté, sauce BBQ fumée, provolone fondant, pain ciabatta</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Club sandwich classique</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">19&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Poulet grillé, bacon, tomate, laitue, mayo, pain à l'ancienne</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Sandwich steak philly</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">21&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Boeuf émincé style steak philly, oignons rouges, poivrons grillés, provolone fondant, pain ciabatta</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Burger au poulet parisien</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">21&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Poitrine de poulet grillée, champignons sautés, fromage suisse, oignons caramélisés, sauce crémeuse, pain brioché</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(209,166,71,.28);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;color:#FBE275;">Burger le 1000</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#FBE275;">23&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.62);">Boeuf haché, halloumi grillé, confit d'oignons, bacon fumé, pain brioché</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-pizzas" data-screen-label="Pizzas et pâtes" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">PIZZAS &amp; PÂTES</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Des classiques réinventés avec des ingrédients frais.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Spaghetti bolognaise</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">16&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Servi avec une sauce bolognaise maison, mijotée lentement avec du boeuf haché, des tomates et des herbes aromatiques</p>
+          <p style="font-size:13px;line-height:1.7;font-style:italic;color:rgba(209,166,71,.9);">Pâtes gratinées + 3 $ · Ajout de meatballs + 5 $</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Tagliatelle à la carbonara</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">19&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Pâtes enrobées d'une sauce crémeuse au parmesan et pancetta, relevée de poivre noir concassé et garnies de persil frais</p>
+          <p style="font-size:13px;line-height:1.7;font-style:italic;color:rgba(209,166,71,.9);">Pâtes gratinées + 3 $</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Pizza Marguarita <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">19&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Sauce tomate maison, mozzarella fondante et feuilles de basilic frais. Le tout sur une pâte artisanale croustillante, cuite à la perfection. Simple, savoureuse et indémodable</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Pizza Pepperoni</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">22&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Sauce tomate, pepperoni et mozzarella fondante</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Pizza Prosciutto</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">23&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Mozzarella fondante et fines tranches de prosciutto italien, rehaussées de roquette fraîche et d'un filet d'huile d'olive</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(209,166,71,.28);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;color:#FBE275;">Pizza au Canard Confit</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#FBE275;">25&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.62);">Canard confit, mozzarella, bacon fumé, oignons rouges rôtis et coulis légèrement épicé-sucré</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Pizza Spécial Golf</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">25&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Sauce tomate, pepperoni, légumes grillés, champignons, olives, mozzarella fondante</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-tacos" data-screen-label="Tacos" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">TACOS</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Tacos souples <span style="font-weight:400;color:rgba(242,239,232,.6);">(3)</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">16&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Choix de garniture : poulet grillé, porc effiloché à la bière noire, poisson croustillant ou boeuf</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-grillades" data-screen-label="Grillades" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">GRILLADES &amp; PLATS CHAUDS</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Des plats réconfortants cuits à la perfection.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Fish and Chips</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">24&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Morue panée à la bière, frites maison, salade de chou, tartare maison</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Brochettes de poulet grillé <span style="font-weight:400;color:rgba(242,239,232,.6);">(2)</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">24&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Poulet mariné aux herbes, riz basmati, légumes croquants, sauce fines herbes</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Brochettes de crevettes chimichurri <span style="font-weight:400;color:rgba(242,239,232,.6);">(2)</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">29&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Crevettes grillées, riz parfumé, légumes, sauce chimichurri</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Pavé de saumon</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">29&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Pavé de saumon grillé à l'aneth et au citron, légumes grillés et riz</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(209,166,71,.28);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;color:#FBE275;">Côtes levées BBQ</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#FBE275;">29&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.62);">Côtes tendres, sauce BBQ maison, frites, légumes du moment</p>
+          <p style="font-size:13px;line-height:1.7;font-style:italic;color:rgba(209,166,71,.9);">Demi-côtes levées BBQ — 24 $</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-poke" data-screen-label="Poké bowl" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">POKÉ BOWL</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Frais, coloré et personnalisable.</p>
+      </div>
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;max-width:760px;padding:clamp(24px,3vw,38px);border:1px solid rgba(209,166,71,.22);border-radius:2px;background:linear-gradient(160deg,rgba(209,166,71,.07),rgba(209,166,71,0) 60%);">
+        <div style="display:flex;align-items:baseline;gap:14px;">
+          <h3 style="font-size:20px;font-weight:600;line-height:1.3;">Poké Bowl du 1000</h3>
+          <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+          <span style="font-family:Teko,Impact,sans-serif;font-size:30px;font-weight:600;line-height:1;color:#FBE275;">22&nbsp;$</span>
+        </div>
+        <p data-desc="1" style="font-size:14px;line-height:1.8;font-weight:300;color:rgba(242,239,232,.66);">Bol de riz Calrose garni de laitue printanière, de légumes croquants, de morceaux d'ananas, de nouilles asiatiques croustillantes et de graines de sésame. Le tout servi avec une sauce arachide onctueuse et une mayo épicée maison, pour un mariage parfait de fraîcheur, de textures et de saveurs.</p>
+        <p style="font-size:13.5px;line-height:1.7;font-style:italic;color:rgba(209,166,71,.95);">Choix de protéine : poulet, crevettes, tofu ou saumon (+ 3 $)</p>
+      </div>
+    </section>
+
+    <section id="cat-poutines" data-screen-label="Poutines" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">POUTINES GOURMANDES</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Un classique québécois revisité.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Poutine classique <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">18&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Frites croustillantes, fromage en grains, sauce maison</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Poutine au porc effiloché</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">21&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Frites, fromage en grain frais, sauce et porc effiloché</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Poutine au poulet popcorn</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">21&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Frites, fromage en grain frais, sauce et poulet popcorn</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(209,166,71,.28);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;color:#FBE275;">Poutine signature au canard</h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#FBE275;">22&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.62);">Frites croustillantes, fromage en grains, sauce riche au jus de canard, canard confit effiloché, oignons caramélisés</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-desserts" data-screen-label="Desserts" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">DESSERTS</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Une touche sucrée pour terminer en beauté.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(20px,3vw,54px) clamp(34px,5vw,80px);">
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Dessert du moment <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">7&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Selon l'inspiration du chef et les produits de saison</p>
+        </div>
+        <div data-reveal="up" style="display:flex;flex-direction:column;gap:7px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+          <div style="display:flex;align-items:baseline;gap:12px;">
+            <h3 style="font-size:17px;font-weight:600;line-height:1.3;">Brownie <span data-diet="1" style="display:inline-block;margin-left:4px;padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-family:'Bebas Neue',Impact,sans-serif;font-size:10px;letter-spacing:.12em;color:#8FCB78;vertical-align:middle;">VÉG</span></h3>
+            <span aria-hidden="true" style="flex:1;min-width:18px;height:1px;background:repeating-linear-gradient(90deg,rgba(209,166,71,.34) 0 2px,rgba(209,166,71,0) 2px 6px);"></span>
+            <span style="font-family:Teko,Impact,sans-serif;font-size:25px;font-weight:600;line-height:1;color:#D1A647;">9&nbsp;$</span>
+          </div>
+          <p data-desc="1" style="font-size:13.5px;line-height:1.75;font-weight:300;color:rgba(242,239,232,.58);">Brownie fondant au chocolat, accompagné d'une boule de crème glacée onctueuse, pour une touche de fraîcheur et de gourmandise.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cat-enfant" data-screen-label="Menu enfant" style="margin-bottom:clamp(60px,9vh,104px);scroll-margin-top:150px;">
+      <div data-reveal="up" style="display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(30px,4vh,44px);">
+        <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,#D1A647,rgba(209,166,71,.06));"></div>
+        <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:.05em;">MENU ENFANT</h2>
+        <p style="font-size:14px;line-height:1.7;font-style:italic;font-weight:300;color:rgba(242,239,232,.55);">Chaque item inclut un jus.</p>
+      </div>
+      <div data-reveal="up" style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;max-width:760px;padding-bottom:20px;border-bottom:1px solid rgba(242,239,232,.07);">
+        <p style="flex:1;min-width:260px;font-size:16px;line-height:1.7;font-weight:400;">Croquettes de poulet, spaghetti bolognaise, burger, poutine ou pogo et frites</p>
+        <span style="font-family:Teko,Impact,sans-serif;font-size:28px;font-weight:600;line-height:1;color:#D1A647;">7&nbsp;$</span>
+      </div>
+    </section>
+
+    <div data-reveal="up" data-diet="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-bottom:clamp(60px,9vh,104px);padding:20px clamp(20px,3vw,32px);border:1px solid rgba(209,166,71,.32);border-radius:2px;">
+      <span style="display:flex;align-items:center;gap:10px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.18em;color:rgba(242,239,232,.85);"><span style="padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-size:10px;letter-spacing:.12em;color:#8FCB78;">VÉG</span> VÉGÉTARIEN</span>
+      <span style="display:flex;align-items:center;gap:10px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.18em;color:rgba(242,239,232,.85);"><span style="padding:2px 6px;border:1px solid rgba(127,191,106,.5);border-radius:2px;font-size:10px;letter-spacing:.12em;color:#8FCB78;">VG</span> VÉGAN</span>
+      <span style="display:flex;align-items:center;gap:10px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;letter-spacing:.18em;color:rgba(242,239,232,.85);"><span style="padding:2px 6px;border:1px solid rgba(209,166,71,.5);border-radius:2px;font-size:10px;letter-spacing:.12em;color:#D1A647;">SG</span> SANS GLUTEN</span>
+      <span style="font-size:12.5px;line-height:1.7;font-weight:300;color:rgba(242,239,232,.45);">Options disponibles sur demande — parlez-en à votre serveur.</span>
+    </div>
+  </div>
+
+
+  <footer data-screen-label="Footer" style="position:relative;padding:clamp(70px,10vh,120px) clamp(20px,5vw,80px) 36px;background:#0D0E0E;overflow:hidden;">
+    <span aria-hidden="true" style="position:absolute;left:50%;bottom:-6%;transform:translateX(-50%);font-family:Teko,Impact,sans-serif;font-weight:700;font-size:clamp(180px,30vw,460px);line-height:.8;color:rgba(173,111,35,.055);pointer-events:none;user-select:none;">1000</span>
+    <div id="mn-footgrid" style="position:relative;display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:clamp(28px,3vw,54px);max-width:1440px;margin:0 auto;">
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <img src="assets/logo-le1000.png" alt="Logo Le 1000 Resto Bar Relais" style="height:52px;width:auto;">
+        <p style="max-width:280px;font-size:13px;line-height:1.85;font-weight:300;color:rgba(242,239,232,.55);">Une adresse chaleureuse où cuisine, cocktails et moments partagés se rencontrent.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:11px;letter-spacing:.32em;color:#D1A647;">NAVIGATION</span>
+        <a href="Accueil.dc.html" style="font-size:13px;color:rgba(242,239,232,.72);">Accueil</a>
+        <a href="#mn-top" style="font-size:13px;color:rgba(242,239,232,.72);">Menu</a>
+        <a href="A propos.dc.html" style="font-size:13px;color:rgba(242,239,232,.72);">À propos</a>
+        <a href="Contact.dc.html" style="font-size:13px;color:rgba(242,239,232,.72);">Contact</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:11px;letter-spacing:.32em;color:#D1A647;">COORDONNÉES</span>
+        <span style="font-size:13px;line-height:1.8;font-weight:300;color:rgba(242,239,232,.6);">[Adresse à compléter]</span>
+        <a href="tel:+10000000000" style="font-size:13px;color:rgba(242,239,232,.72);">[Téléphone]</a>
+        <div style="display:flex;gap:18px;margin-top:6px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;">
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <span style="font-family:'Bebas Neue',Impact,sans-serif;font-size:11px;letter-spacing:.32em;color:#D1A647;">HORAIRES</span>
+        <div style="display:grid;grid-template-columns:auto auto;gap:6px 18px;font-size:13px;font-weight:300;color:rgba(242,239,232,.6);">
+          <span>Lun – Jeu</span><span>[à compléter]</span>
+          <span>Ven – Sam</span><span>[à compléter]</span>
+          <span>Dimanche</span><span>[à compléter]</span>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative;max-width:1440px;margin:clamp(48px,7vh,86px) auto 0;">
+      <div aria-hidden="true" style="height:1px;background:linear-gradient(90deg,rgba(209,166,71,0),rgba(209,166,71,.35),rgba(209,166,71,0));"></div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:24px;font-size:11px;letter-spacing:.12em;color:rgba(242,239,232,.4);">
+        <span>© 2026 Le 1000 Resto Bar Relais. Tous droits réservés.</span>
+        <div style="display:flex;flex-wrap:wrap;gap:24px;">
+          <a href="#" style="color:rgba(242,239,232,.5);">Mentions légales</a>
+          <a href="#" style="color:rgba(242,239,232,.5);">Politique de confidentialité</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showPromo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenu&quot;},&quot;showDescriptions&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenu&quot;},&quot;showDietBadges&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenu&quot;},&quot;parallaxIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Interactions&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      toggleMenu: () => {
+        const m = document.getElementById('mn-menu');
+        const b = document.getElementById('mn-burger');
+        if (!m) return;
+        const open = m.dataset.open !== '1';
+        m.dataset.open = open ? '1' : '0';
+        m.style.opacity = open ? '1' : '0';
+        m.style.pointerEvents = open ? 'auto' : 'none';
+        m.style.transform = open ? 'none' : 'translateY(-12px)';
+        document.body.style.overflow = open ? 'hidden' : '';
+        if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+    };
+  }
+
+  componentDidMount() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ease = 'cubic-bezier(.16,.84,.24,1)';
+
+    // optional content toggles, applied without template holes so paint is instant
+    const hide = (sel, on) => {
+      if (on) return;
+      document.querySelectorAll(sel).forEach(el => { el.style.display = 'none'; });
+    };
+    hide('[data-promo]', this.props.showPromo ?? true);
+    hide('[data-diet]', this.props.showDietBadges ?? true);
+    hide('[data-desc]', this.props.showDescriptions ?? true);
+
+    // today's promo, surfaced in the hero
+    const promos = [
+      ['DIMANCHE', 'Steak frites à 30 $'],
+      ['LUNDI', 'Tacos 4 $ l\u2019unité · vin à 50 % de rabais'],
+      ['MARDI', 'Ailes de poulet à 50 % de rabais'],
+      ['MERCREDI', 'Steak frites à 30 $'],
+      ['JEUDI', 'Burger jalapeños cheddar à 10 $'],
+      ['VENDREDI', 'Double ton fort — boisson forte doublée'],
+      ['SAMEDI', 'Bouteille 26 oz (vodka, rhum, gin) à 75 $']
+    ];
+    const today = promos[new Date().getDay()];
+    const lab = document.getElementById('mn-todaylabel');
+    const txt = document.getElementById('mn-todaytext');
+    if (lab && today) lab.textContent = today[0];
+    if (txt && today) txt.textContent = today[1];
+
+    let items = [...document.querySelectorAll('[data-reveal]')];
+    const itemList = () => {
+      if (items.length && items[0].isConnected) return items;
+      items = [...document.querySelectorAll('[data-reveal]')];
+      return items;
+    };
+    const show = el => {
+      if (el.dataset.shown === '1') return;
+      el.dataset.shown = '1';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    };
+
+    if (!reduce) {
+      const prime = el => {
+        if (el.style.transition) return;
+        const d = el.getAttribute('data-delay') || 0;
+        el.style.transition = 'opacity .95s ' + ease + ' ' + d + 'ms, transform 1.05s ' + ease + ' ' + d + 'ms';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(46px)';
+      };
+      this._pass = () => {
+        const vh = window.innerHeight;
+        itemList().forEach(el => {
+          prime(el);
+          if (el.dataset.shown === '1') return;
+          const r = el.getBoundingClientRect();
+          if (r.top < vh * 0.9 && r.bottom > -vh * 0.3) show(el);
+        });
+      };
+      if (window.IntersectionObserver) {
+        this._io = new IntersectionObserver(ents => {
+          ents.forEach(e => { if (e.isIntersecting) { show(e.target); this._io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
+        itemList().forEach(el => { prime(el); this._io.observe(el); });
+      }
+      this._pass();
+      setTimeout(() => this._pass(), 0);
+    }
+
+    // parallax: rAF for smoothness, scroll + interval so a dormant rAF can't stall it
+    const heroImg = () => document.getElementById('mn-heroimg');
+    const heroText = () => document.getElementById('mn-herotext');
+    const promoImg = () => document.getElementById('mn-promoimg');
+    const top = () => document.getElementById('mn-top');
+    const strength = this.props.parallaxIntensity ?? 1;
+    let last = 0;
+
+    const body = () => {
+      const vh = window.innerHeight;
+      const hero = top();
+      const y = hero ? Math.max(0, -hero.getBoundingClientRect().top) : 0;
+      if (this._pass) this._pass();
+      if (reduce || window.innerWidth < 780) return;
+      const h = heroImg(), t = heroText(), p = promoImg();
+      if (h && hero) {
+        const cap = Math.min(y, hero.offsetHeight);
+        h.style.transform = 'translate3d(0,' + (cap * 0.24 * strength) + 'px,0) scale(' + (1 + Math.min(y / Math.max(1, hero.offsetHeight), 1) * 0.1) + ')';
+      }
+      if (t && hero) {
+        const prog = Math.min(1, y / Math.max(1, hero.offsetHeight));
+        t.style.transform = 'translate3d(0,' + (Math.min(y, hero.offsetHeight) * -0.16 * strength) + 'px,0)';
+        t.style.opacity = String(Math.max(0, 1 - prog * 1.25));
+      }
+      if (p && p.parentElement) {
+        const r = p.parentElement.getBoundingClientRect();
+        p.style.transform = 'translate3d(0,' + (((r.top + r.height / 2 - vh / 2) / vh) * -13 * strength) + '%,0)';
+      }
+    };
+    const step = () => { last = Date.now(); try { body(); } catch (e) {} };
+    const tick = () => { this._raf = requestAnimationFrame(tick); step(); };
+    tick();
+    this._onScroll = () => step();
+    window.addEventListener('scroll', this._onScroll, { passive: true, capture: true });
+    document.addEventListener('scroll', this._onScroll, { passive: true, capture: true });
+    this._guard = setInterval(() => { if (Date.now() - last > 250) step(); if (this._pass) this._pass(); }, 200);
+
+    // pin the category rail exactly under the (shrinking) header
+    const syncNav = () => {
+      const hd = document.getElementById('mn-header');
+      const nav = document.getElementById('mn-catnav');
+      if (!hd || !nav) return;
+      const hH = Math.round(hd.getBoundingClientRect().height);
+      nav.style.top = hH + 'px';
+      const total = hH + Math.round(nav.getBoundingClientRect().height) + 24;
+      document.querySelectorAll('section[id^="cat-"], #mn-promo').forEach(s => { s.style.scrollMarginTop = total + 'px'; });
+    };
+    syncNav();
+    this._navSync = setInterval(syncNav, 400);
+
+    this._onResize = () => { step(); syncNav(); };
+    window.addEventListener('resize', this._onResize);
+  }
+
+  componentWillUnmount() {
+    document.body.style.overflow = '';
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._guard) clearInterval(this._guard);
+    if (this._navSync) clearInterval(this._navSync);
+    if (this._io) this._io.disconnect();
+    window.removeEventListener('scroll', this._onScroll, { capture: true });
+    document.removeEventListener('scroll', this._onScroll, { capture: true });
+    window.removeEventListener('resize', this._onResize);
+  }
+}
+</script>
+</body>
+</html>
