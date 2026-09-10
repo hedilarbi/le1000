@@ -28,8 +28,16 @@ export function SiteFooter() {
 
         <div className="flex flex-col gap-3.5">
           <span className="font-label text-[11px] tracking-[.32em] text-gold">COORDONNÉES</span>
-          <span className="text-[13px] font-light leading-[1.8] text-ivory/60">[Adresse à compléter]</span>
-          <a href="tel:+10000000000" className="text-[13px] text-ivory/70 hover:text-gold-bright">[Téléphone]</a>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=1000%20Mont%C3%A9e%20Sainte-Marthe%2C%20Trois-Rivi%C3%A8res%2C%20QC%20G8V%202P7"
+            target="_blank"
+            rel="noreferrer"
+            className="text-[13px] font-light leading-[1.8] text-ivory/60 hover:text-gold-bright"
+          >
+            1000 Mnt Sainte-Marthe<br />Trois-Rivières, QC G8V 2P7
+          </a>
+          <a href="tel:+18196971214" className="text-[13px] text-ivory/70 hover:text-gold-bright">819-697-1214</a>
+          <a href="mailto:info@le1000resto.com" className="text-[13px] text-ivory/70 hover:text-gold-bright">info@le1000resto.com</a>
           <div className="mt-1.5 flex gap-[18px] text-[11px] uppercase tracking-[.2em]">
             <a href="#" className="hover:text-gold-bright">Instagram</a>
             <a href="#" className="hover:text-gold-bright">Facebook</a>
@@ -38,11 +46,9 @@ export function SiteFooter() {
 
         <div className="flex flex-col gap-3.5">
           <span className="font-label text-[11px] tracking-[.32em] text-gold">HORAIRES</span>
-          <div className="grid grid-cols-[auto_auto] gap-x-[18px] gap-y-1.5 text-[13px] font-light text-ivory/60">
-            <span>Lun – Jeu</span><span>[à compléter]</span>
-            <span>Ven – Sam</span><span>[à compléter]</span>
-            <span>Dimanche</span><span>[à compléter]</span>
-          </div>
+          <p className="max-w-[220px] text-[13px] font-light leading-[1.8] text-ivory/60">
+            Nos heures peuvent varier selon la saison. Appelez-nous avant de vous déplacer.
+          </p>
         </div>
       </div>
 

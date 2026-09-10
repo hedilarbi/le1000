@@ -1,10 +1,12 @@
 import { HomeEffects } from "@/app/components/home-effects";
-import { getHomeMarkup } from "@/app/lib/home-markup";
+import { OpeningIntro } from "@/app/components/opening-intro";
+import { HomeContent } from "@/app/components/page-content/home-content";
 
 export default function Home() {
   return (
     <main>
-      <div dangerouslySetInnerHTML={{ __html: getHomeMarkup() }} />
+      <OpeningIntro />
+      <HomeContent />
       <HomeEffects />
     </main>
   );

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactEffects } from "@/app/components/contact-effects";
-import { getContactMarkup } from "@/app/lib/contact-markup";
+import { ContactContent } from "@/app/components/page-content/contact-content";
 
 export const metadata: Metadata = {
   title: "Contact — Le 1000 Resto Bar Relais",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main>
-      <div dangerouslySetInnerHTML={{ __html: getContactMarkup() }} />
+      <ContactContent />
       <ContactEffects />
     </main>
   );

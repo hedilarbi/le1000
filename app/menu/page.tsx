@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { MenuEffects } from "@/app/components/menu-effects";
-import { getMenuMarkup } from "@/app/lib/menu-markup";
+import { MenuContent } from "@/app/components/page-content/menu-content";
 
 export const metadata: Metadata = {
   title: "Menu — Le 1000 Resto Bar Relais",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function MenuPage() {
   return (
     <main>
-      <div dangerouslySetInnerHTML={{ __html: getMenuMarkup() }} />
+      <MenuContent />
       <MenuEffects />
     </main>
   );

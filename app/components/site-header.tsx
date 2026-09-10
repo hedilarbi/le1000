@@ -125,8 +125,16 @@ export function SiteHeader() {
         </div>
         <div className="my-[40px] mb-[26px] h-px bg-[linear-gradient(90deg,rgba(209,166,71,.5),rgba(209,166,71,0))]" />
         <div className="flex flex-col gap-2.5 text-[13px] leading-[1.7] text-ivory/60">
-          <span>[Adresse à compléter]</span>
-          <a href="tel:+10000000000" className="text-gold-bright">[Téléphone à compléter]</a>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=1000%20Mont%C3%A9e%20Sainte-Marthe%2C%20Trois-Rivi%C3%A8res%2C%20QC%20G8V%202P7"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-gold-bright"
+          >
+            1000 Mnt Sainte-Marthe<br />Trois-Rivières, QC G8V 2P7
+          </a>
+          <a href="tel:+18196971214" className="text-gold-bright">819-697-1214</a>
+          <a href="mailto:info@le1000resto.com" className="text-gold-bright">info@le1000resto.com</a>
           <div className="mt-2 flex gap-[22px] text-[11px] uppercase tracking-[.22em]">
             <a href="#" aria-label="Instagram du 1000">Instagram</a>
             <a href="#" aria-label="Facebook du 1000">Facebook</a>
