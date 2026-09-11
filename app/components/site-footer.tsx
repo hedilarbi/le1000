@@ -39,8 +39,8 @@ export function SiteFooter() {
           <a href="tel:+18196971214" className="text-[13px] text-ivory/70 hover:text-gold-bright">819-697-1214</a>
           <a href="mailto:info@le1000resto.com" className="text-[13px] text-ivory/70 hover:text-gold-bright">info@le1000resto.com</a>
           <div className="mt-1.5 flex gap-[18px] text-[11px] uppercase tracking-[.2em]">
-            <a href="#" className="hover:text-gold-bright">Instagram</a>
-            <a href="#" className="hover:text-gold-bright">Facebook</a>
+            <a href="https://www.instagram.com/le1000restobarrelais?stkn=dTk1bjJ1Y2lxenR0&utm_source=qr&fbclid=IwY2xjawUQrxhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMXIxZ2NNbzU1U2ZKMkFDTGpzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEe7D1YthexY4KSnjjkZbVVYFaIO2Mm8JRf923zjcaNJuAD8dTzUW9b7iw4r9o_aem_i5LsLEMRZEdBennxPAlHyw" target="_blank" rel="noopener noreferrer" className="hover:text-gold-bright">Instagram</a>
+            <a href="https://www.facebook.com/profile.php?id=61576957533585&locale=fr_FR" target="_blank" rel="noopener noreferrer" className="hover:text-gold-bright">Facebook</a>
           </div>
         </div>
 

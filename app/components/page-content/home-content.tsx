@@ -216,7 +216,7 @@ export function HomeContent() {
         <div style={{ maxWidth: 1440, margin: "0 auto" }}>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 24, marginBottom: "clamp(40px,6vh,72px)" }}>
             <h2 data-reveal="up" style={{ fontFamily: "Teko,Impact,sans-serif", fontSize: "clamp(42px,5.6vw,92px)", lineHeight: ".94", textTransform: "uppercase", color: "#FFFFFF" }}>L&rsquo;atmosph&egrave;re<br />du 1000</h2>
-            <a href="#" data-arrow="1" data-reveal="up" data-delay="140" style={{ display: "inline-flex", alignItems: "center", gap: 12, paddingBottom: 8, borderBottom: "1px solid rgba(209,166,71,.4)", fontSize: 12, letterSpacing: ".24em", textTransform: "uppercase", fontWeight: "500", color: "#FBE275" }}>Suivre Le 1000 sur Instagram
+            <a href="https://www.instagram.com/le1000restobarrelais?stkn=dTk1bjJ1Y2lxenR0&utm_source=qr&fbclid=IwY2xjawUQrxhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMXIxZ2NNbzU1U2ZKMkFDTGpzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEe7D1YthexY4KSnjjkZbVVYFaIO2Mm8JRf923zjcaNJuAD8dTzUW9b7iw4r9o_aem_i5LsLEMRZEdBennxPAlHyw" target="_blank" rel="noopener noreferrer" data-arrow="1" data-reveal="up" data-delay="140" style={{ display: "inline-flex", alignItems: "center", gap: 12, paddingBottom: 8, borderBottom: "1px solid rgba(209,166,71,.4)", fontSize: 12, letterSpacing: ".24em", textTransform: "uppercase", fontWeight: "500", color: "#FBE275" }}>Suivre Le 1000 sur Instagram
               <span data-arrow-glyph="1" style={{ display: "inline-block", transition: "transform .55s cubic-bezier(.16,.84,.24,1)" }}>&rarr;</span>
             </a>
           </div>
@@ -286,8 +286,8 @@ export function HomeContent() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <span style={{ fontFamily: "'Bebas Neue',Impact,sans-serif", fontSize: 11, letterSpacing: ".34em", color: "rgba(242,239,232,.45)" }}>R&Eacute;SEAUX SOCIAUX</span>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 24, fontSize: 12, letterSpacing: ".2em", textTransform: "uppercase" }}>
-                  <a href="#">Instagram</a>
-                  <a href="#">Facebook</a>
+                  <a href="https://www.instagram.com/le1000restobarrelais?stkn=dTk1bjJ1Y2lxenR0&utm_source=qr&fbclid=IwY2xjawUQrxhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMXIxZ2NNbzU1U2ZKMkFDTGpzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEe7D1YthexY4KSnjjkZbVVYFaIO2Mm8JRf923zjcaNJuAD8dTzUW9b7iw4r9o_aem_i5LsLEMRZEdBennxPAlHyw" target="_blank" rel="noopener noreferrer">Instagram</a>
+                  <a href="https://www.facebook.com/profile.php?id=61576957533585&locale=fr_FR" target="_blank" rel="noopener noreferrer">Facebook</a>
                 </div>
               </div>
             </div>

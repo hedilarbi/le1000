@@ -136,8 +136,8 @@ export function SiteHeader() {
           <a href="tel:+18196971214" className="text-gold-bright">819-697-1214</a>
           <a href="mailto:info@le1000resto.com" className="text-gold-bright">info@le1000resto.com</a>
           <div className="mt-2 flex gap-[22px] text-[11px] uppercase tracking-[.22em]">
-            <a href="#" aria-label="Instagram du 1000">Instagram</a>
-            <a href="#" aria-label="Facebook du 1000">Facebook</a>
+            <a href="https://www.instagram.com/le1000restobarrelais?stkn=dTk1bjJ1Y2lxenR0&utm_source=qr&fbclid=IwY2xjawUQrxhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMXIxZ2NNbzU1U2ZKMkFDTGpzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEe7D1YthexY4KSnjjkZbVVYFaIO2Mm8JRf923zjcaNJuAD8dTzUW9b7iw4r9o_aem_i5LsLEMRZEdBennxPAlHyw" target="_blank" rel="noopener noreferrer" aria-label="Instagram du 1000">Instagram</a>
+            <a href="https://www.facebook.com/profile.php?id=61576957533585&locale=fr_FR" target="_blank" rel="noopener noreferrer" aria-label="Facebook du 1000">Facebook</a>
           </div>
         </div>
       </div>

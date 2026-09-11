@@ -102,8 +102,8 @@ export function ContactContent() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <span style={{ fontFamily: "'Bebas Neue',Impact,sans-serif", fontSize: 11, letterSpacing: ".32em", color: "rgba(242,239,232,.45)" }}>R&Eacute;SEAUX SOCIAUX</span>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 22, fontSize: 12, letterSpacing: ".2em", textTransform: "uppercase" }}>
-                  <a href="#">Instagram</a>
-                  <a href="#">Facebook</a>
+                  <a href="https://www.instagram.com/le1000restobarrelais?stkn=dTk1bjJ1Y2lxenR0&utm_source=qr&fbclid=IwY2xjawUQrxhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMXIxZ2NNbzU1U2ZKMkFDTGpzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEe7D1YthexY4KSnjjkZbVVYFaIO2Mm8JRf923zjcaNJuAD8dTzUW9b7iw4r9o_aem_i5LsLEMRZEdBennxPAlHyw" target="_blank" rel="noopener noreferrer">Instagram</a>
+                  <a href="https://www.facebook.com/profile.php?id=61576957533585&locale=fr_FR" target="_blank" rel="noopener noreferrer">Facebook</a>
                 </div>
               </div>
             </div>
