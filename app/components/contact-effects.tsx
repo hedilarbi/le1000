@@ -13,16 +13,88 @@ export function ContactEffects() {
     let observer: IntersectionObserver | undefined;
     let statusTimer = 0;
 
-    const form = root.querySelector<HTMLFormElement>("form");
+    const form = root.querySelector<HTMLFormElement>("#ct-contact-form");
     const status = document.getElementById("ct-status");
-    const submit = (event: Event) => {
+    const submitButton = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const successModal = document.getElementById("ct-success-modal");
+    const modalPanel = successModal?.firstElementChild as HTMLElement | null;
+    const modalClose = document.getElementById("ct-success-close") as HTMLButtonElement | null;
+    const modalConfirm = document.getElementById("ct-success-confirm") as HTMLButtonElement | null;
+
+    const closeSuccessModal = () => {
+      if (!successModal) return;
+      successModal.style.opacity = "0";
+      successModal.style.pointerEvents = "none";
+      successModal.setAttribute("aria-hidden", "true");
+      if (modalPanel) modalPanel.style.transform = "translateY(14px) scale(.98)";
+      submitButton?.focus();
+    };
+    const openSuccessModal = () => {
+      if (!successModal) return;
+      successModal.style.opacity = "1";
+      successModal.style.pointerEvents = "auto";
+      successModal.setAttribute("aria-hidden", "false");
+      if (modalPanel) modalPanel.style.transform = "none";
+      modalClose?.focus();
+    };
+    const closeFromBackdrop = (event: Event) => {
+      if (event.target === successModal) closeSuccessModal();
+    };
+    const closeFromKeyboard = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && successModal?.getAttribute("aria-hidden") === "false") closeSuccessModal();
+    };
+
+    modalClose?.addEventListener("click", closeSuccessModal);
+    modalConfirm?.addEventListener("click", closeSuccessModal);
+    successModal?.addEventListener("click", closeFromBackdrop);
+    window.addEventListener("keydown", closeFromKeyboard);
+    cleanups.push(() => {
+      modalClose?.removeEventListener("click", closeSuccessModal);
+      modalConfirm?.removeEventListener("click", closeSuccessModal);
+      successModal?.removeEventListener("click", closeFromBackdrop);
+      window.removeEventListener("keydown", closeFromKeyboard);
+    });
+
+    const submit = async (event: Event) => {
       event.preventDefault();
-      form?.reset();
-      if (status) status.style.opacity = "1";
-      window.clearTimeout(statusTimer);
-      statusTimer = window.setTimeout(() => {
-        if (status) status.style.opacity = "0";
-      }, 6000);
+      if (!form || !submitButton) return;
+
+      submitButton.disabled = true;
+      submitButton.style.opacity = ".65";
+      submitButton.textContent = "Envoi en cours…";
+      if (status) {
+        status.textContent = "";
+        status.style.opacity = "0";
+      }
+
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const result = (await response.json()) as { error?: string };
+
+        if (!response.ok) throw new Error(result.error || "Une erreur est survenue.");
+
+        form.reset();
+        openSuccessModal();
+      } catch (error) {
+        if (status) {
+          status.textContent = error instanceof Error ? error.message : "Le message n’a pas pu être envoyé.";
+          status.style.color = "#ff9b8f";
+          status.style.opacity = "1";
+        }
+        window.clearTimeout(statusTimer);
+        statusTimer = window.setTimeout(() => {
+          if (status) status.style.opacity = "0";
+        }, 6000);
+      } finally {
+        submitButton.disabled = false;
+        submitButton.style.opacity = "1";
+        submitButton.textContent = "Envoyer le message";
+      }
+
     };
     form?.addEventListener("submit", submit);
     if (form) cleanups.push(() => form.removeEventListener("submit", submit));

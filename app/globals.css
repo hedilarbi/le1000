@@ -149,6 +149,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 @media (max-width: 779px) {
+  /* Le repère de défilement prenait de la hauteur dans le flex et remontait le titre sous le header. */
+  #m1000-scrollcue { display: none !important; }
   #m1000-promodays { grid-template-columns: 1fr 1fr !important; }
   #m1000-intro-text,
   #m1000-intro-media { grid-column: 1 / span 12 !important; }
