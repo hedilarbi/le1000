@@ -17,11 +17,14 @@ export function MenuContent() {
         </span>
         <h1 data-reveal="up" data-delay="90" style={{ fontFamily: "Teko,Impact,sans-serif", fontWeight: "700", fontSize: "clamp(56px,8vw,124px)", lineHeight: ".94", letterSpacing: ".005em", textTransform: "uppercase" }}>Le menu</h1>
         <p data-reveal="up" data-delay="200" style={{ maxWidth: 560, fontSize: "clamp(15px,1.3vw,19px)", lineHeight: "1.7", fontWeight: "400", color: "#EFE9DC", textShadow: "0 1px 18px rgba(13,14,14,.85)" }}>Cuisine de bistro g&eacute;n&eacute;reuse, grillades, pizzas artisanales et poutines gourmandes &mdash; arros&eacute;es d&apos;une promo diff&eacute;rente chaque jour de la semaine.</p>
-        <a href="#mn-promo" data-reveal="up" data-delay="300" style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", gap: "8px 18px", maxWidth: 640, marginTop: 8, padding: "18px 22px", border: "1px solid rgba(209,166,71,.55)", borderRadius: 2, background: "linear-gradient(140deg,rgba(209,166,71,.2),rgba(13,14,14,.62))", backdropFilter: "blur(6px)", transition: "border-color .5s ease,background .5s ease" }}>
-          <span id="mn-todaylabel" style={{ fontFamily: "'Bebas Neue',Impact,sans-serif", fontSize: 13, letterSpacing: ".28em", color: "#FBE275" }}>PROMO DU JOUR</span>
-          <span id="mn-todaytext" style={{ flex: "1", minWidth: 200, fontSize: "clamp(15px,1.4vw,19px)", lineHeight: "1.5", fontWeight: "500", color: "#F2EFE8" }}>Voir les promotions de la semaine</span>
-          <span aria-hidden="true" style={{ fontFamily: "'Bebas Neue',Impact,sans-serif", fontSize: 12, letterSpacing: ".22em", color: "rgba(251,226,117,.8)" }}>VOIR TOUT &darr;</span>
-        </a>
+        <div data-reveal="up" data-delay="300" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "clamp(14px,1.6vw,26px)", marginTop: 8 }}>
+          <a href="https://mylightspeed.app/IETTYUUN/C-ordering/menu" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 12, padding: "17px 34px", borderRadius: 2, background: "linear-gradient(180deg,#AD6F23 0%,#D1A647 22%,#FBE275 52%,#ECD067 74%,#AB6D23 100%)", color: "#160F04", fontSize: 12, letterSpacing: ".24em", textTransform: "uppercase", fontWeight: "600", transition: "transform .5s cubic-bezier(.16,.84,.24,1),box-shadow .5s ease" }}>Commande en ligne</a>
+          <a href="#mn-promo" style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", gap: "8px 18px", maxWidth: 640, padding: "18px 22px", border: "1px solid rgba(209,166,71,.55)", borderRadius: 2, background: "linear-gradient(140deg,rgba(209,166,71,.2),rgba(13,14,14,.62))", backdropFilter: "blur(6px)", transition: "border-color .5s ease,background .5s ease" }}>
+            <span id="mn-todaylabel" style={{ fontFamily: "'Bebas Neue',Impact,sans-serif", fontSize: 13, letterSpacing: ".28em", color: "#FBE275" }}>PROMO DU JOUR</span>
+            <span id="mn-todaytext" style={{ flex: "1", minWidth: 200, fontSize: "clamp(15px,1.4vw,19px)", lineHeight: "1.5", fontWeight: "500", color: "#F2EFE8" }}>Voir les promotions de la semaine</span>
+            <span aria-hidden="true" style={{ fontFamily: "'Bebas Neue',Impact,sans-serif", fontSize: 12, letterSpacing: ".22em", color: "rgba(251,226,117,.8)" }}>VOIR TOUT &darr;</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>

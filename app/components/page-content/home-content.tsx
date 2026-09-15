@@ -17,7 +17,7 @@ export function HomeContent() {
           <p data-reveal="up" data-delay="240" style={{ maxWidth: 560, fontSize: "clamp(17px,1.5vw,22px)", lineHeight: "1.7", fontWeight: "400", color: "#EFE9DC", textShadow: "0 1px 18px rgba(13,14,14,.85)" }}>Une adresse chaleureuse o&ugrave; cuisine, cocktails et moments partag&eacute;s se rencontrent.</p>
           <div data-reveal="up" data-delay="340" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "clamp(14px,1.6vw,26px)", marginTop: 10 }}>
             <a href="/menu" style={{ display: "inline-flex", alignItems: "center", gap: 12, padding: "17px 34px", borderRadius: 2, background: "linear-gradient(180deg,#AD6F23 0%,#D1A647 22%,#FBE275 52%,#ECD067 74%,#AB6D23 100%)", color: "#160F04", fontSize: 12, letterSpacing: ".24em", textTransform: "uppercase", fontWeight: "600", transition: "transform .5s cubic-bezier(.16,.84,.24,1),box-shadow .5s ease" }}>D&eacute;couvrir le menu</a>
-            <a href="#infos" data-arrow="1" style={{ display: "inline-flex", alignItems: "center", gap: 14, padding: "17px 4px", fontSize: 12, letterSpacing: ".24em", textTransform: "uppercase", fontWeight: "500", color: "#F2EFE8", borderBottom: "1px solid rgba(242,239,232,.24)" }}>Nous trouver
+            <a href="https://mylightspeed.app/IETTYUUN/C-ordering/menu" target="_blank" rel="noopener noreferrer" data-arrow="1" style={{ display: "inline-flex", alignItems: "center", gap: 14, padding: "17px 4px", fontSize: 12, letterSpacing: ".24em", textTransform: "uppercase", fontWeight: "500", color: "#F2EFE8", borderBottom: "1px solid rgba(242,239,232,.24)" }}>Commande en ligne
               <span data-arrow-glyph="1" style={{ display: "inline-block", fontFamily: "Montserrat,sans-serif", color: "#FBE275", transition: "transform .55s cubic-bezier(.16,.84,.24,1)" }}>&rarr;</span>
             </a>
           </div>
@@ -205,7 +205,7 @@ export function HomeContent() {
               <span style={{ display: "flex", alignItems: "center", gap: 12 }}><span style={{ width: 18, height: 1, background: "#AD6F23" }} />Des assiettes &agrave; savourer</span>
               <span style={{ display: "flex", alignItems: "center", gap: 12 }}><span style={{ width: 18, height: 1, background: "#AD6F23" }} />Des moments &agrave; partager</span>
             </div>
-            <a href="/menu" data-arrow="1" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginTop: 14, fontSize: 12, letterSpacing: ".24em", textTransform: "uppercase", fontWeight: "500", color: "#FBE275" }}>Voir le menu
+            <a href="https://mylightspeed.app/IETTYUUN/C-ordering/menu" target="_blank" rel="noopener noreferrer" data-arrow="1" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginTop: 14, fontSize: 12, letterSpacing: ".24em", textTransform: "uppercase", fontWeight: "500", color: "#FBE275" }}>Commande en ligne
               <span data-arrow-glyph="1" style={{ display: "inline-block", transition: "transform .55s cubic-bezier(.16,.84,.24,1)" }}>&rarr;</span>
             </a>
           </div>
