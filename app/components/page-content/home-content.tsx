@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { HomeReservation } from "./home-reservation";
+
 export function HomeContent() {
   return (
     <div id="m1000-root" style={{ position: "relative", background: "#0D0E0E" }}><section id="hero" data-screen-label="Hero" style={{ position: "relative", height: "100svh", minHeight: 600, overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
@@ -256,6 +258,8 @@ export function HomeContent() {
           </div>
         </div>
       </section>
+
+      <HomeReservation />
 
       <section id="infos" data-screen-label="Informations pratiques" style={{ position: "relative", padding: "clamp(90px,14vh,180px) clamp(20px,5vw,80px)", background: "#25292D" }}>
         <div id="m1000-infogrid" style={{ display: "grid", gridTemplateColumns: "5fr 7fr", gap: "clamp(30px,4vw,70px)", maxWidth: 1440, margin: "0 auto" }}>

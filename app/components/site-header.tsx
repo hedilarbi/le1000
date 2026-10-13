@@ -11,6 +11,7 @@ const links = [
   { label: "Accueil", href: "/#hero", path: "/" },
 
   { label: "Menu", href: "/menu", path: "/menu" },
+  { label: "Réserver", href: "/reservation", path: "/reservation" },
   { label: "À propos", href: "/a-propos", path: "/a-propos" },
   { label: "Contact", href: "/contact", path: "/contact" },
 ];
@@ -72,10 +73,10 @@ export function SiteHeader() {
           </div>
 
           <Link
-            href="/#infos"
+            href="/reservation"
             className="hidden items-center gap-2.5 rounded-[2px] border border-gold/55 px-[22px] py-3 text-[11px] font-medium uppercase tracking-[.24em] text-gold-bright transition-colors duration-500 hover:border-gold hover:bg-gold/15 nav:inline-flex"
           >
-            Nous trouver
+            Faire une réservation
           </Link>
 
           <button

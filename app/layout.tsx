@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Montserrat, Teko } from "next/font/google";
-import { SiteFooter } from "@/app/components/site-footer";
-import { SiteHeader } from "@/app/components/site-header";
-import { CustomCursor } from "@/app/components/custom-cursor";
 import { SITE_NAME, SITE_URL, SOCIAL_IMAGE } from "@/app/lib/seo";
 import "./globals.css";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -77,48 +74,13 @@ export const metadata: Metadata = {
   },
 };
 
-const restaurantJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Restaurant",
-  "@id": `${SITE_URL}/#restaurant`,
-  name: SITE_NAME,
-  url: SITE_URL,
-  image: `${SITE_URL}${SOCIAL_IMAGE}`,
-  logo: `${SITE_URL}/Le1000_Logo.png`,
-  telephone: "+1-819-697-1214",
-  email: "info@le1000resto.com",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "1000 montée Sainte-Marthe",
-    addressLocality: "Trois-Rivières",
-    addressRegion: "QC",
-    postalCode: "G8V 2P7",
-    addressCountry: "CA",
-  },
-  servesCuisine: ["Cuisine bistro", "Grillades", "Pizza", "Poutine"],
-  menu: `${SITE_URL}/menu`,
-  sameAs: [
-    "https://www.instagram.com/le1000restobarrelais/",
-    "https://www.facebook.com/profile.php?id=61576957533585",
-  ],
-};
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
       className={`${montserrat.variable} ${teko.variable} ${bebasNeue.variable}`}
     >
-      <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd).replace(/</g, "\\u003c") }}
-        />
-        <CustomCursor />
-        <SiteHeader />
-        {children}
-        <SiteFooter />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

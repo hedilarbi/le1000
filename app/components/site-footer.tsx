@@ -22,6 +22,7 @@ export function SiteFooter() {
           <span className="font-label text-[11px] tracking-[.32em] text-gold">NAVIGATION</span>
           <Link href="/#hero" className="text-[13px] text-ivory/70 hover:text-gold-bright">Accueil</Link>
           <Link href="/menu" className="text-[13px] text-ivory/70 hover:text-gold-bright">Menu</Link>
+          <Link href="/reservation" className="text-[13px] text-ivory/70 hover:text-gold-bright">Réserver</Link>
           <Link href="/a-propos" className="text-[13px] text-ivory/70 hover:text-gold-bright">À propos</Link>
           <Link href="/contact" className="text-[13px] text-ivory/70 hover:text-gold-bright">Contact</Link>
         </div>
@@ -58,7 +59,7 @@ export function SiteFooter() {
           <span>© 2026 Le 1000 Resto Bar Relais. Tous droits réservés.</span>
           <div className="flex flex-wrap gap-6">
             <a href="#" className="text-ivory/50 hover:text-gold-bright">Mentions légales</a>
-            <a href="#" className="text-ivory/50 hover:text-gold-bright">Politique de confidentialité</a>
+            <Link href="/politique-de-confidentialite" className="text-ivory/50 hover:text-gold-bright">Politique de confidentialité</Link>
           </div>
         </div>
       </div>

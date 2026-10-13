@@ -6,8 +6,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     { path: "", changeFrequency: "weekly" as const, priority: 1 },
     { path: "/menu", changeFrequency: "weekly" as const, priority: 0.9 },
+    { path: "/reservation", changeFrequency: "monthly" as const, priority: 0.9 },
     { path: "/a-propos", changeFrequency: "monthly" as const, priority: 0.7 },
     { path: "/contact", changeFrequency: "monthly" as const, priority: 0.8 },
+    { path: "/politique-de-confidentialite", changeFrequency: "yearly" as const, priority: 0.2 },
   ];
 
   return pages.map(({ path, changeFrequency, priority }) => ({

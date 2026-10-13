@@ -45,6 +45,12 @@ body {
 
 ::selection { background: var(--color-gold); color: var(--color-ink); }
 a { color: inherit; text-decoration: none; }
+
+/* La règle ci-dessus, hors couche, l'emporte sur les classes Tailwind : on rend
+   leurs couleurs aux liens de l'admin et des pages de réservation. */
+#admin-root a,
+#rs-root a,
+#reserver a { color: revert-layer; }
 button, a { -webkit-tap-highlight-color: transparent; }
 
 #m1000-root a {
