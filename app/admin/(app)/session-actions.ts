@@ -24,7 +24,7 @@ export async function logoutAction() {
   redirect("/admin/login");
 }
 
-export type PasswordState = { error?: string };
+export type PasswordState = { error?: string; redirectTo?: string };
 
 export async function changePasswordAction(_previous: PasswordState, formData: FormData): Promise<PasswordState> {
   const admin = await requireAdmin({ allowPasswordChange: true });
@@ -51,5 +51,5 @@ export async function changePasswordAction(_previous: PasswordState, formData: F
   await endAllSessions(admin.id);
   await startSession(admin.id);
   await logAudit({ actor: "admin", adminId: admin.id, action: "auth.password_changed", ip: (await requestMeta()).ip });
-  redirect("/admin");
+  return { redirectTo: "/admin" };
 }

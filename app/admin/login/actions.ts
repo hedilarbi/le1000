@@ -1,14 +1,14 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
 import { logAudit } from "@/app/lib/server/audit";
 import { startSession, verifyAdminPassword } from "@/app/lib/server/auth";
 import { collections } from "@/app/lib/server/db";
 import { clearLimit, consume, currentCount } from "@/app/lib/server/rate-limit";
 import { requestMeta } from "@/app/lib/server/request";
 
-export type LoginState = { error?: string };
+// Après connexion, le navigateur recharge entièrement la page de destination
+// (voir LoginForm) : aucun état du routeur client ne survit au changement de session.
+export type LoginState = { error?: string; redirectTo?: string };
 
 const WINDOW_SECONDS = 15 * 60;
 const MAX_ATTEMPTS_PER_IP = 20;
@@ -37,5 +37,5 @@ export async function loginAction(_previous: LoginState, formData: FormData): Pr
   await admins.updateOne({ _id: admin._id }, { $set: { lastLoginAt: new Date() } });
   await startSession(admin._id);
   await logAudit({ actor: "admin", adminId: admin._id, action: "auth.login", ip });
-  redirect(admin.mustChangePassword ? "/admin/mot-de-passe" : "/admin");
+  return { redirectTo: admin.mustChangePassword ? "/admin/mot-de-passe" : "/admin" };
 }

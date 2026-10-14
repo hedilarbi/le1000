@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 
 import { SubmitButton } from "../../_components/submit-button";
 import { ui } from "../../_components/ui";
@@ -8,6 +8,11 @@ import { changePasswordAction, type PasswordState } from "../session-actions";
 
 export function PasswordForm({ email, minLength }: { email: string; minLength: number }) {
   const [state, action] = useActionState<PasswordState, FormData>(changePasswordAction, {});
+
+  // Nouvelle session : rechargement complet du tableau de bord.
+  useEffect(() => {
+    if (state.redirectTo) window.location.replace(state.redirectTo);
+  }, [state.redirectTo]);
 
   return (
     <form action={action} className="flex flex-col gap-4">

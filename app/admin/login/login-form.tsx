@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 import { SubmitButton } from "../_components/submit-button";
 import { ui } from "../_components/ui";
@@ -10,6 +10,10 @@ export function LoginForm() {
   const [state, action] = useActionState<LoginState, FormData>(loginAction, {});
   // Contrôlé : après un échec, le courriel reste saisi (seul le mot de passe est vidé).
   const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (state.redirectTo) window.location.replace(state.redirectTo);
+  }, [state.redirectTo]);
 
   return (
     <form action={action} className="flex flex-col gap-4">
@@ -34,8 +38,8 @@ export function LoginForm() {
           {state.error}
         </p>
       )}
-      <SubmitButton className={`${ui.primary} mt-2 w-full py-3`} pendingLabel="Connexion…">
-        Se connecter
+      <SubmitButton className={`${ui.primary} mt-2 w-full py-3`} pendingLabel="Connexion…" disabled={Boolean(state.redirectTo)}>
+        {state.redirectTo ? "Connexion…" : "Se connecter"}
       </SubmitButton>
     </form>
   );
