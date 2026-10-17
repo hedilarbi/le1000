@@ -2,7 +2,7 @@
 
 import { refresh } from "next/cache";
 
-import { RESTAURANT_PHONE_DISPLAY } from "@/app/lib/reservations/config";
+import { RESERVATION_PHONE_DISPLAY } from "@/app/lib/reservations/config";
 import { clientChangeSchema, firstIssue } from "@/app/lib/reservations/validation";
 import { consume } from "@/app/lib/server/rate-limit";
 import { requestMeta } from "@/app/lib/server/request";
@@ -17,7 +17,7 @@ import {
 
 export type ManageState = { error?: string; message?: string };
 
-const EXPIRED = `Ce lien n'est plus valide. Appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.`;
+const EXPIRED = `Ce lien n'est plus valide. Appelez-nous au ${RESERVATION_PHONE_DISPLAY}.`;
 
 // Le jeton du lien est la seule preuve d'identité du client : on le revalide
 // à chaque action.
@@ -39,7 +39,7 @@ async function run(work: () => Promise<string>): Promise<ManageState> {
   } catch (error) {
     if (error instanceof ReservationError) return { error: error.message };
     console.error("Action client impossible :", error);
-    return { error: `Un problème technique est survenu. Appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.` };
+    return { error: `Un problème technique est survenu. Appelez-nous au ${RESERVATION_PHONE_DISPLAY}.` };
   }
 }
 

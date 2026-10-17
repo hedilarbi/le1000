@@ -161,8 +161,16 @@ export function confirmationRequestEmail(reservation: MessageReservation, manage
 
 // Jour J à 10 h : demande de confirmation (SMS). Reste dans l'alphabet GSM-7
 // (pas de ê, â, ô, ’…) et sous 160 caractères : un seul SMS facturé.
+// Heures pleines sans « 00 » (19h, 16h30).
 export function confirmationRequestSms(reservation: MessageReservation, manageUrl: string, confirmBefore: string) {
-  return `Le 1000: vos places aujourd'hui à ${formatTimeFr(reservation.time)} pour ${reservation.partySize}. Confirmez avant ${confirmBefore}: ${manageUrl} STOP pour vous désabonner`;
+  const short = (time: string) => time.replace(/h00$/, "h");
+  const people = `${reservation.partySize} personne${reservation.partySize > 1 ? "s" : ""}`;
+  return [
+    `Veuillez confirmer votre réservation pour ${people} à ${short(formatTimeFr(reservation.time))} avant ${short(confirmBefore)}`,
+    manageUrl,
+    "Merci, Le 1000",
+    "STOP: désabonnement",
+  ].join("\n");
 }
 
 // 4 h avant : dernier rappel (courriel), 1 h avant l'annulation automatique.

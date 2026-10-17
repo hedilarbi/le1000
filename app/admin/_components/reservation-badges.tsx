@@ -15,8 +15,24 @@ export function Badge({ tone, children }: { tone: keyof typeof TONES; children: 
 
 type BadgeReservation = Pick<
   ReservationDoc,
-  "status" | "attendanceConfirmedAt" | "check" | "autoCancelAt" | "cancelReason" | "overbooked" | "source"
+  "status" | "attendanceConfirmedAt" | "check" | "autoCancelAt" | "cancelReason" | "overbooked" | "source" | "startsAt"
 >;
+
+export type PresenceState = "pending" | "unconfirmed" | "confirmed";
+
+// Trois états de présence d'une réservation non annulée : en attente tant que l'heure
+// limite n'est pas passée, non confirmée ensuite, confirmée (par le client, réservation
+// du jour même, ou client arrivé). Utilisé par les badges et les filtres du tableau de bord.
+// Rendu côté serveur, une fois par requête : l'heure courante y est stable.
+export function presenceState(
+  reservation: Pick<ReservationDoc, "status" | "attendanceConfirmedAt" | "autoCancelAt" | "startsAt">,
+  now = new Date(),
+): PresenceState {
+  if (reservation.status === "arrived") return "confirmed";
+  if (reservation.status === "no_show") return "unconfirmed";
+  if (reservation.attendanceConfirmedAt || !reservation.autoCancelAt) return "confirmed";
+  return now >= reservation.autoCancelAt || now >= reservation.startsAt ? "unconfirmed" : "pending";
+}
 
 export function ReservationBadges({ reservation }: { reservation: BadgeReservation }) {
   const badges: React.ReactNode[] = [];
@@ -32,7 +48,13 @@ export function ReservationBadges({ reservation }: { reservation: BadgeReservati
   else if (reservation.status === "no_show") badges.push(<Badge key="s" tone="red">Absent</Badge>);
   else if (reservation.attendanceConfirmedAt || !autoCancelAt) badges.push(<Badge key="s" tone="green">Présence confirmée</Badge>);
   else {
-    if (check.state === "sent") badges.push(<Badge key="s" tone="amber">En attente de confirmation</Badge>);
+    badges.push(
+      presenceState(reservation) === "unconfirmed" ? (
+        <Badge key="s" tone="red">Non confirmée</Badge>
+      ) : (
+        <Badge key="s" tone="amber">En attente de confirmation</Badge>
+      ),
+    );
     if (check.state === "failed") badges.push(<Badge key="f" tone="red">Demande non envoyée</Badge>);
   }
 
@@ -47,7 +69,7 @@ export function ReservationBadges({ reservation }: { reservation: BadgeReservati
 }
 
 export const KIND_LABELS: Record<NotificationKind, string> = {
-  confirmation_email: "Confirmation",
+  confirmation_email: "Courriel de réservation",
   update_email: "Modification",
   cancellation_email: "Annulation",
   check_email: "Demande 10 h (courriel)",

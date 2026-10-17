@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { RESTAURANT_PHONE_DISPLAY, RESTAURANT_PHONE_LINK } from "@/app/lib/reservations/config";
+import { RESERVATION_PHONE_DISPLAY, RESERVATION_PHONE_LINK } from "@/app/lib/reservations/config";
 import { formatDateFr, formatTimeFr } from "@/app/lib/reservations/time";
 
 import { Dropdown } from "../ui/dropdown";
@@ -46,8 +46,8 @@ function PhoneNotice({ text }: { text: string }) {
   return (
     <div className={`${rs.notice} flex flex-col gap-3`}>
       <p>{text}</p>
-      <a href={RESTAURANT_PHONE_LINK} className={`${rs.gold} self-start`}>
-        Appeler le {RESTAURANT_PHONE_DISPLAY}
+      <a href={RESERVATION_PHONE_LINK} className={`${rs.gold} self-start`}>
+        Appeler le {RESERVATION_PHONE_DISPLAY}
       </a>
     </div>
   );
@@ -122,6 +122,10 @@ export function AreaTimeFields({ date, partySize, onChange }: { date: string; pa
   if (loading) return <p className="text-sm text-ivory/55">Recherche des disponibilités…</p>;
   if (error) return <p className={rs.error}>{error}</p>;
   if (!data || data.message) return <PhoneNotice text={data?.message ?? "Aucune disponibilité en ligne pour cette date."} />;
+  // Tous les lieux complets pour ce nombre de personnes : le resto peut parfois trouver une solution.
+  if (data.areas.every((candidate) => !choices(candidate).length)) {
+    return <PhoneNotice text="Complet en ligne pour cette date et ce nombre de personnes. Appelez-nous : nous pourrons peut-être vous trouver une place." />;
+  }
 
   return (
     <div className="flex flex-col gap-5">

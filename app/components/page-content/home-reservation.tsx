@@ -1,4 +1,4 @@
-import { MAX_ONLINE_PARTY_SIZE, RESTAURANT_PHONE_DISPLAY, RESTAURANT_PHONE_LINK } from "@/app/lib/reservations/config";
+import { MAX_ONLINE_PARTY_SIZE, RESERVATION_PHONE_DISPLAY, RESERVATION_PHONE_LINK } from "@/app/lib/reservations/config";
 
 import { PartySizeDropdown } from "../reservation/party-size-dropdown";
 import { rs } from "../reservation/styles";
@@ -25,8 +25,8 @@ export function HomeReservation() {
           <p data-reveal="up" data-delay="160" className="max-w-[460px] text-[15px] font-light leading-[1.85] text-ivory/70">
             Bar, terrasse ou salle à manger : choisissez votre place en quelques clics, la confirmation arrive aussitôt par courriel.
             Pour {MAX_ONLINE_PARTY_SIZE + 1} personnes et plus, appelez-nous au{" "}
-            <a href={RESTAURANT_PHONE_LINK} className="text-gold-bright">
-              {RESTAURANT_PHONE_DISPLAY}
+            <a href={RESERVATION_PHONE_LINK} className="text-gold-bright">
+              {RESERVATION_PHONE_DISPLAY}
             </a>
             .
           </p>

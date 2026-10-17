@@ -23,6 +23,9 @@ export const PERSONAL_DATA_RETENTION_DAYS = 365;
 export const RESTAURANT_NAME = "Le 1000 Resto Bar Relais";
 export const RESTAURANT_PHONE_DISPLAY = "819-697-1214";
 export const RESTAURANT_PHONE_LINK = "tel:+18196971214";
+// Ligne des réservations : poste 2. La virgule du lien fait une pause puis compose le poste.
+export const RESERVATION_PHONE_DISPLAY = `${RESTAURANT_PHONE_DISPLAY}, poste 2`;
+export const RESERVATION_PHONE_LINK = "tel:+18196971214,2";
 
 export const DEFAULT_AREAS = [
   { id: "bar", name: "Bar", order: 1 },

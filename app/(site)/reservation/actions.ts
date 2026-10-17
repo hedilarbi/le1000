@@ -1,6 +1,6 @@
 "use server";
 
-import { RESTAURANT_PHONE_DISPLAY } from "@/app/lib/reservations/config";
+import { RESERVATION_PHONE_DISPLAY } from "@/app/lib/reservations/config";
 import { firstIssue, onlineReservationSchema } from "@/app/lib/reservations/validation";
 import { consume } from "@/app/lib/server/rate-limit";
 import { requestMeta } from "@/app/lib/server/request";
@@ -12,7 +12,7 @@ export type BookingState = {
   booked?: { reference: string; date: string; time: string; partySize: number; areaName: string; email: string; needsConfirmation: boolean };
 };
 
-const TOO_MANY = `Trop de réservations ont été faites depuis cet appareil. Appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.`;
+const TOO_MANY = `Trop de réservations ont été faites depuis cet appareil. Appelez-nous au ${RESERVATION_PHONE_DISPLAY}.`;
 
 export async function bookAction(_previous: BookingState, formData: FormData): Promise<BookingState> {
   // Champ invisible pour les humains : seul un robot le remplit.
@@ -21,7 +21,7 @@ export async function bookAction(_previous: BookingState, formData: FormData): P
   const { ip } = await requestMeta();
   if (!(await consume(`booking-ip:${ip}`, 10, 60 * 60)).allowed) return { error: TOO_MANY };
   if (!(await verifyTurnstile(String(formData.get("turnstileToken") ?? ""), ip))) {
-    return { error: `La vérification anti-robot a échoué. Réessayez, ou appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.` };
+    return { error: `La vérification anti-robot a échoué. Réessayez, ou appelez-nous au ${RESERVATION_PHONE_DISPLAY}.` };
   }
 
   const parsed = onlineReservationSchema.safeParse(Object.fromEntries(formData));
@@ -46,6 +46,6 @@ export async function bookAction(_previous: BookingState, formData: FormData): P
   } catch (error) {
     if (error instanceof ReservationError) return { error: error.message };
     console.error("Réservation en ligne impossible :", error);
-    return { error: `Un problème technique empêche la réservation. Appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.` };
+    return { error: `Un problème technique empêche la réservation. Appelez-nous au ${RESERVATION_PHONE_DISPLAY}.` };
   }
 }

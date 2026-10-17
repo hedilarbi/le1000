@@ -5,7 +5,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { bookAction, type BookingState } from "@/app/(site)/reservation/actions";
-import { MAX_ONLINE_PARTY_SIZE, RESTAURANT_PHONE_DISPLAY, RESTAURANT_PHONE_LINK } from "@/app/lib/reservations/config";
+import { MAX_ONLINE_PARTY_SIZE, RESERVATION_PHONE_DISPLAY, RESERVATION_PHONE_LINK } from "@/app/lib/reservations/config";
 import { formatDateFr, formatTimeFr } from "@/app/lib/reservations/time";
 import { formatPhoneInput } from "@/app/lib/reservations/validation";
 
@@ -25,8 +25,8 @@ export function LargeGroupNotice() {
         Pour les groupes de <strong>{LARGE_GROUP} personnes et plus</strong>, la réservation se fait par téléphone : nous organisons votre
         venue avec vous.
       </p>
-      <a href={RESTAURANT_PHONE_LINK} className={`${rs.gold} self-start`}>
-        Appeler le {RESTAURANT_PHONE_DISPLAY}
+      <a href={RESERVATION_PHONE_LINK} className={`${rs.gold} self-start`}>
+        Appeler le {RESERVATION_PHONE_DISPLAY}
       </a>
     </div>
   );

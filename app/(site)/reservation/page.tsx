@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
 import { BookingForm } from "@/app/components/reservation/booking-form";
-import { BOOKING_HORIZON_DAYS, MAX_ONLINE_PARTY_SIZE, RESTAURANT_PHONE_DISPLAY, RESTAURANT_PHONE_LINK } from "@/app/lib/reservations/config";
-import { addDays, isDateString, restaurantNow } from "@/app/lib/reservations/time";
+import { BOOKING_HORIZON_DAYS, MAX_ONLINE_PARTY_SIZE, RESERVATION_PHONE_DISPLAY, RESERVATION_PHONE_LINK } from "@/app/lib/reservations/config";
+import { addDays, formatDuration, isDateString, restaurantNow } from "@/app/lib/reservations/time";
 import { readEnv } from "@/app/lib/server/env";
+import { getSettings } from "@/app/lib/server/reservations";
 import { createPageMetadata } from "@/app/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -15,6 +16,7 @@ export const metadata: Metadata = createPageMetadata({
 
 export default async function ReservationPage({ searchParams }: PageProps<"/reservation">) {
   const params = await searchParams;
+  const settings = await getSettings();
   const today = restaurantNow().date;
   const maxDate = addDays(today, BOOKING_HORIZON_DAYS);
   const requestedDate = typeof params.date === "string" ? params.date : "";
@@ -45,9 +47,12 @@ export default async function ReservationPage({ searchParams }: PageProps<"/rese
             Bar, terrasse ou salle à manger : choisissez votre lieu et votre heure, la confirmation arrive aussitôt par courriel.
           </p>
           <div className="mt-2 flex flex-col gap-2 border-t border-ivory/10 pt-6 text-sm font-light leading-relaxed text-ivory/60">
-            <p>Groupe de {MAX_ONLINE_PARTY_SIZE + 1} personnes et plus, ou réservation pour ce soir ? Appelez-nous.</p>
-            <a href={RESTAURANT_PHONE_LINK} className="font-display text-[34px] leading-none text-gold-bright">
-              {RESTAURANT_PHONE_DISPLAY}
+            <p>
+              Groupe de {MAX_ONLINE_PARTY_SIZE + 1} personnes et plus, ou réservation dans moins de {formatDuration(settings.minOnlineLeadMinutes)} ?
+              Appelez-nous.
+            </p>
+            <a href={RESERVATION_PHONE_LINK} className="font-display text-[34px] leading-none text-gold-bright">
+              {RESERVATION_PHONE_DISPLAY}
             </a>
           </div>
         </div>

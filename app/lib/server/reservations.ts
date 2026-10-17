@@ -15,7 +15,7 @@ import {
   LUNCH_AUTO_CANCEL_TIME,
   MAX_ACTIVE_ONLINE_RESERVATIONS,
   PERSONAL_DATA_RETENTION_DAYS,
-  RESTAURANT_PHONE_DISPLAY,
+  RESERVATION_PHONE_DISPLAY,
 } from "@/app/lib/reservations/config";
 import { addDays, daysBetween, formatDuration, minutesToTime, restaurantNow, timeToMinutes, zonedTimeToUtc } from "@/app/lib/reservations/time";
 import type { Area, ReservationSettings, ReservationStatus } from "@/app/lib/reservations/types";
@@ -181,7 +181,7 @@ function minutesUntil(date: string, start: number, now: { date: string; minutes:
 }
 
 function leadTimeMessage(settings: ReservationSettings) {
-  return `Pour une réservation dans moins de ${formatDuration(settings.minOnlineLeadMinutes)}, appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.`;
+  return `Pour une réservation dans moins de ${formatDuration(settings.minOnlineLeadMinutes)}, appelez-nous au ${RESERVATION_PHONE_DISPLAY}.`;
 }
 
 // Suivi d'une réservation. `confirmed` (réservation du jour même ou présence déjà
@@ -200,7 +200,7 @@ async function assertActiveReservationLimit(input: Pick<ReservationInput, "phone
   });
   if (active >= MAX_ACTIVE_ONLINE_RESERVATIONS) {
     throw new ReservationError(
-      `Vous avez déjà ${active} réservations à venir. Pour en ajouter une autre, appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.`,
+      `Vous avez déjà ${active} réservations à venir. Pour en ajouter une autre, appelez-nous au ${RESERVATION_PHONE_DISPLAY}.`,
       "locked",
     );
   }
@@ -246,7 +246,7 @@ export async function onlineAvailability(date: string, partySize: number, now = 
   const isTooSoon = (slot: number) => minutesUntil(date, slot, today) < settings.minOnlineLeadMinutes;
   const bookable = areas.filter((area) => area.active && area.capacity > 0);
   if (!upcoming.length || !bookable.length) {
-    return { areas: [], message: `Aucune réservation en ligne n'est possible à cette date. Appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.`, leadMessage: null };
+    return { areas: [], message: `Aucune réservation en ligne n'est possible à cette date. Appelez-nous au ${RESERVATION_PHONE_DISPLAY}.`, leadMessage: null };
   }
 
   const { reservations } = await collections();
@@ -337,7 +337,7 @@ export async function updateReservation(
   if (current.status === "cancelled") throw new ReservationError("Cette réservation est annulée.", "locked");
   if (actor.kind === "client" && now.getTime() >= current.startsAt.getTime() - CLIENT_CHANGE_CUTOFF_MINUTES * MINUTE) {
     throw new ReservationError(
-      `Les modifications en ligne sont possibles jusqu'à ${CLIENT_CHANGE_CUTOFF_MINUTES} minutes avant votre réservation. Appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.`,
+      `Les modifications en ligne sont possibles jusqu'à ${CLIENT_CHANGE_CUTOFF_MINUTES} minutes avant votre réservation. Appelez-nous au ${RESERVATION_PHONE_DISPLAY}.`,
       "locked",
     );
   }
@@ -412,7 +412,7 @@ export async function cancelReservation(id: ObjectId, actor: Actor, options: { n
   if (!current || current.anonymizedAt) throw new ReservationError("Réservation introuvable.", "not_found");
   if (current.status === "cancelled") return current;
   if (actor.kind === "client" && (current.status !== "confirmed" || now >= current.startsAt)) {
-    throw new ReservationError(`Cette réservation ne peut plus être annulée en ligne. Appelez-nous au ${RESTAURANT_PHONE_DISPLAY}.`, "locked");
+    throw new ReservationError(`Cette réservation ne peut plus être annulée en ligne. Appelez-nous au ${RESERVATION_PHONE_DISPLAY}.`, "locked");
   }
 
   const updated = await reservations.findOneAndUpdate(

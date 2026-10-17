@@ -7,6 +7,7 @@ import { dayOverview, monthSummary, recentInboundSms } from "@/app/lib/server/ad
 import { requireAdmin } from "@/app/lib/server/auth";
 import { BLOCKING_STATUSES } from "@/app/lib/server/reservations";
 
+import { presenceState, type PresenceState } from "../_components/reservation-badges";
 import { ReservationRow } from "../_components/reservation-row";
 import { ui } from "../_components/ui";
 import { AreaCards } from "./_dashboard/area-cards";
@@ -21,12 +22,18 @@ export default async function DashboardPage({ searchParams }: PageProps<"/admin"
   const today = restaurantNow().date;
   const date = typeof params.date === "string" && isDateString(params.date) ? params.date : today;
   const areaFilter = typeof params.lieu === "string" ? params.lieu : null;
+  const stateFilter = PRESENCE_FILTERS.find((filter) => filter.slug === params.etat) ?? null;
 
   const [overview, month, smsReplies] = await Promise.all([dayOverview(date), monthSummary(date.slice(0, 7)), recentInboundSms(5)]);
   const areaNames = Object.fromEntries(overview.areas.map((area) => [area.id, area.name]));
   const active = overview.reservations.filter((reservation) => reservation.status !== "cancelled");
   const cancelled = overview.reservations.filter((reservation) => reservation.status === "cancelled");
-  const listed = areaFilter ? active.filter((reservation) => reservation.areaId === areaFilter) : active;
+  // Filtres combinables : un lieu et un état de confirmation à la fois.
+  const inArea = areaFilter ? active.filter((reservation) => reservation.areaId === areaFilter) : active;
+  const inState = stateFilter ? active.filter((reservation) => presenceState(reservation) === stateFilter.state) : active;
+  const listed = stateFilter ? inArea.filter((reservation) => presenceState(reservation) === stateFilter.state) : inArea;
+  const filterHref = (lieu: string | null, etat: string | null) =>
+    `/admin?date=${date}${lieu ? `&lieu=${lieu}` : ""}${etat ? `&etat=${etat}` : ""}`;
   const expectedGuests = active
     .filter((reservation) => BLOCKING_STATUSES.includes(reservation.status))
     .reduce((total, reservation) => total + reservation.partySize, 0);
@@ -66,20 +73,33 @@ export default async function DashboardPage({ searchParams }: PageProps<"/admin"
               <h2 className={ui.subheading}>Réservations ({active.length})</h2>
               <p className="mt-1 text-xs text-ivory/50">{expectedGuests} personnes attendues</p>
             </div>
-            <div className="flex flex-wrap gap-1.5">
-              <FilterChip href={`/admin?date=${date}`} active={!areaFilter} label={`Tous (${active.length})`} />
-              {overview.areas.map((area) => {
-                const count = active.filter((reservation) => reservation.areaId === area.id).length;
-                if (!count && !area.active) return null;
-                return (
+            <div className="flex flex-col items-end gap-2">
+              <div className="flex flex-wrap justify-end gap-1.5">
+                <FilterChip href={filterHref(null, stateFilter?.slug ?? null)} active={!areaFilter} label={`Tous les lieux (${inState.length})`} />
+                {overview.areas.map((area) => {
+                  const count = inState.filter((reservation) => reservation.areaId === area.id).length;
+                  if (!count && !area.active) return null;
+                  return (
+                    <FilterChip
+                      key={area.id}
+                      href={filterHref(area.id, stateFilter?.slug ?? null)}
+                      active={areaFilter === area.id}
+                      label={`${area.name} (${count})`}
+                    />
+                  );
+                })}
+              </div>
+              <div className="flex flex-wrap justify-end gap-1.5">
+                <FilterChip href={filterHref(areaFilter, null)} active={!stateFilter} label={`Tous les états (${inArea.length})`} />
+                {PRESENCE_FILTERS.map((filter) => (
                   <FilterChip
-                    key={area.id}
-                    href={`/admin?date=${date}&lieu=${area.id}`}
-                    active={areaFilter === area.id}
-                    label={`${area.name} (${count})`}
+                    key={filter.slug}
+                    href={filterHref(areaFilter, filter.slug)}
+                    active={stateFilter?.slug === filter.slug}
+                    label={`${filter.label} (${inArea.filter((reservation) => presenceState(reservation) === filter.state).length})`}
                   />
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
 
@@ -136,6 +156,12 @@ export default async function DashboardPage({ searchParams }: PageProps<"/admin"
     </div>
   );
 }
+
+const PRESENCE_FILTERS = [
+  { slug: "attente", state: "pending", label: "En attente" },
+  { slug: "non-confirmee", state: "unconfirmed", label: "Non confirmées" },
+  { slug: "confirmee", state: "confirmed", label: "Présence confirmée" },
+] as const satisfies readonly { slug: string; state: PresenceState; label: string }[];
 
 function FilterChip({ href, active, label }: { href: string; active: boolean; label: string }) {
   return (

@@ -6,8 +6,8 @@ import { rs } from "@/app/components/reservation/styles";
 import {
   BOOKING_HORIZON_DAYS,
   CLIENT_CHANGE_CUTOFF_MINUTES,
-  RESTAURANT_PHONE_DISPLAY,
-  RESTAURANT_PHONE_LINK,
+  RESERVATION_PHONE_DISPLAY,
+  RESERVATION_PHONE_LINK,
 } from "@/app/lib/reservations/config";
 import { addDays, formatDateFr, formatTimeFr, restaurantNow } from "@/app/lib/reservations/time";
 import { confirmationIsOpen } from "@/app/lib/server/notifications";
@@ -28,8 +28,8 @@ export default async function ManageReservationPage({ params }: PageProps<"/r/[t
         <h1 className="font-display text-[clamp(40px,5vw,72px)] uppercase leading-[.95] text-white">Lien expiré</h1>
         <p className="max-w-[520px] text-[16px] font-light leading-relaxed text-ivory/75">
           Ce lien de réservation n&apos;est plus valide. Pour toute question, appelez-nous au{" "}
-          <a href={RESTAURANT_PHONE_LINK} className="text-gold-bright">
-            {RESTAURANT_PHONE_DISPLAY}
+          <a href={RESERVATION_PHONE_LINK} className="text-gold-bright">
+            {RESERVATION_PHONE_DISPLAY}
           </a>
           .
         </p>
@@ -42,7 +42,9 @@ export default async function ManageReservationPage({ params }: PageProps<"/r/[t
 
   const now = new Date();
   const startsAt = reservation.startsAt.getTime();
-  const isConfirmed = reservation.status === "confirmed";
+  // Réservation dont l'heure est passée : plus rien à confirmer ni à modifier.
+  const isPast = now.getTime() >= startsAt;
+  const isConfirmed = reservation.status === "confirmed" && !isPast;
   const today = restaurantNow(now).date;
   const areaName = (await getAreas()).find((area) => area.id === reservation.areaId)?.name ?? reservation.areaId;
 
@@ -70,6 +72,9 @@ export default async function ManageReservationPage({ params }: PageProps<"/r/[t
           <dt className={rs.labelText}>LIEU</dt>
           <dd className="mt-1">{areaName}</dd>
         </div>
+        {isPast && reservation.status !== "cancelled" && (
+          <p className="text-ivory/70 sm:col-span-2">Cette réservation est passée. Merci de votre visite, au plaisir de vous revoir !</p>
+        )}
         {isConfirmed && (reservation.attendanceConfirmedAt || !reservation.autoCancelAt) && (
           <p className="text-emerald-300 sm:col-span-2">✓ Votre réservation est confirmée. À bientôt !</p>
         )}
@@ -109,8 +114,8 @@ export default async function ManageReservationPage({ params }: PageProps<"/r/[t
 
       <p className="text-sm font-light text-ivory/50">
         Une question ? Appelez-nous au{" "}
-        <a href={RESTAURANT_PHONE_LINK} className="text-gold-bright">
-          {RESTAURANT_PHONE_DISPLAY}
+        <a href={RESERVATION_PHONE_LINK} className="text-gold-bright">
+          {RESERVATION_PHONE_DISPLAY}
         </a>
         .
       </p>
